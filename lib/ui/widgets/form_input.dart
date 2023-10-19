@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
+import 'package:flutter_movies_app/ui/utils/form_validators.dart';
 
 class FormInput extends StatelessWidget {
   const FormInput({
@@ -10,6 +11,8 @@ class FormInput extends StatelessWidget {
     required this.icon,
     this.obscureText = false,
     this.onIconTap,
+    this.controller,
+    this.validator,
   });
 
   final String label;
@@ -17,6 +20,8 @@ class FormInput extends StatelessWidget {
   final IconData icon;
   final bool obscureText;
   final VoidCallback? onIconTap;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +34,9 @@ class FormInput extends StatelessWidget {
           FormInputLabel(label: label),
           height_4,
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: controller,
+            validator: validator ?? requiredValidator,
             style: regular_14,
             obscureText: obscureText,
             cursorColor: Colors.black,

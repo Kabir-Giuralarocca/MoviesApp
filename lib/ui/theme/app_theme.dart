@@ -6,6 +6,10 @@ class AppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.grey[200],
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey[200],
+      scrolledUnderElevation: 0,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         textStyle: MaterialStatePropertyAll(semibold_16),
@@ -42,6 +46,7 @@ class AppTheme {
       hintStyle: regular_14.copyWith(color: Colors.grey),
       suffixIconColor: Colors.grey[700],
       errorStyle: regular_12.copyWith(color: Colors.red),
+      errorMaxLines: 3,
       border: InputBorder.none,
     ),
   );

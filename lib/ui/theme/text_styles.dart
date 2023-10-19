@@ -35,6 +35,11 @@ final TextStyle semibold_16 = GoogleFonts.montserrat(
 );
 
 // Bold
+final TextStyle bold_24 = GoogleFonts.montserrat(
+  fontSize: 24,
+  fontWeight: FontWeight.w700,
+);
+
 final TextStyle bold_36 = GoogleFonts.montserrat(
   fontSize: 36,
   fontWeight: FontWeight.w700,

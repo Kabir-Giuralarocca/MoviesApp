@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/helpers/token_helper.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
@@ -19,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    TokenHelper.getToken().then((value) =>
+        value.isNotEmpty ? Navigator.of(context).pushNamed("/home") : null);
+  }
+
   void _showLoaderDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -35,21 +44,25 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    _showLoaderDialog(context);
-    login(
-      username: usernameController.text,
-      password: passwordController.text,
-    ).then(
-      (value) {
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      _showLoaderDialog(context);
+      login(
+        username: usernameController.text,
+        password: passwordController.text,
+      ).then(
+        (value) {
+          _closeLoaderDialog();
+          Navigator.of(context).pushNamed("/home");
+        },
+      ).onError((error, stackTrace) {
         _closeLoaderDialog();
-        Navigator.of(context).pushNamed("/home");
-      },
-    ).onError((error, stackTrace) {
-      _closeLoaderDialog();
-      ScaffoldMessenger.of(context).showSnackBar(
-        messageSnackBar(message: error.toString(), isError: true),
-      );
-    });
+        ScaffoldMessenger.of(context).showSnackBar(
+          messageSnackBar(message: error.toString(), isError: true),
+        );
+      });
+    } else {
+      Navigator.of(context).pushNamed("/home");
+    }
   }
 
   @override

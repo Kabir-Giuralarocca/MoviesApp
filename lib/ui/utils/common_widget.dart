@@ -32,14 +32,17 @@ Dialog loaderDialog = const Dialog(
 );
 
 // SnackBar
-SnackBar errorSnackBar(String message) {
+SnackBar messageSnackBar({
+  required String message,
+  bool isError = false,
+  String? label,
+  void Function()? onPressed,
+}) {
   return SnackBar(
-    backgroundColor: Colors.red,
+    backgroundColor: isError ? Colors.red : Colors.blueGrey,
     content: Text(message),
-    padding: const EdgeInsets.all(16),
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
-    ),
+    action: label != null && onPressed != null
+        ? SnackBarAction(label: label, onPressed: onPressed)
+        : null,
   );
 }

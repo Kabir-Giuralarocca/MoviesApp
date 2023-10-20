@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/helpers/exceptions.dart';
+import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/utils/form_validators.dart';
@@ -12,11 +14,69 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  BuildContext? dialogContext;
   bool obscurePassword = true;
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  void _showLoaderDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialog) {
+        dialogContext = dialog;
+        return loaderDialog;
+      },
+    );
+  }
+
+  void _closeLoaderDialog() {
+    dialogContext != null ? Navigator.pop(dialogContext!) : null;
+  }
+
+  void _register() {
+    _showLoaderDialog(context);
+
+    // registerWithLogin(
+    //   username: usernameController.text,
+    //   email: emailController.text,
+    //   password: passwordController.text,
+    // ).then((value) {
+    //   _closeLoaderDialog();
+    //   Navigator.of(context).pushNamed("/home");
+    // }).onError((error, stackTrace) {
+    //   _closeLoaderDialog();
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     messageSnackBar(message: error.toString(), isError: true),
+    //   );
+    // });
+
+    register(
+      username: usernameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+    ).then((value) {
+      _closeLoaderDialog();
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(
+          message: "Account creato con successo!",
+          label: "Accedi",
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      _closeLoaderDialog();
+      bool userExist = error is UserAlredyExist;
+      ScaffoldMessenger.of(context).showSnackBar(messageSnackBar(
+        message: error.toString(),
+        isError: true,
+        label: userExist ? "Accedi" : null,
+        onPressed: userExist ? () => Navigator.of(context).pop() : null,
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() == true) {
-                      Navigator.of(context).pushNamed("/home");
+                      _register();
                     }
                   },
                   child: const Text("Registrati"),

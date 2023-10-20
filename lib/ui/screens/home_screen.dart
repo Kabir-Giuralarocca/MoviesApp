@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 
@@ -20,9 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         titleTextStyle: bold_24.copyWith(color: Colors.white),
         actions: [
           GestureDetector(
-            onTap: () => Navigator.of(context).popUntil(
-              (route) => route.isFirst,
-            ),
+            onTap: () => logout(context),
             child: const Padding(
               padding: EdgeInsets.only(right: 16),
               child: Icon(Icons.logout, color: Colors.white),

@@ -19,4 +19,9 @@ class TokenHelper {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString(tokenKey, token);
   }
+
+  static void removeToken() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove(tokenKey);
+  }
 }

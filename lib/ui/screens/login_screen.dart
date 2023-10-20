@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     ).onError((error, stackTrace) {
       _closeLoaderDialog();
       ScaffoldMessenger.of(context).showSnackBar(
-        errorSnackBar(error.toString()),
+        messageSnackBar(message: error.toString(), isError: true),
       );
     });
   }

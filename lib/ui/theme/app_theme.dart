@@ -49,5 +49,15 @@ class AppTheme {
       errorMaxLines: 3,
       border: InputBorder.none,
     ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.blueGrey,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      contentTextStyle: regular_12.copyWith(color: Colors.white),
+      actionBackgroundColor: Colors.blueGrey[900],
+      actionTextColor: Colors.white,
+    ),
   );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
+import 'package:flutter_movies_app/ui/screens/movies_screen.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
@@ -54,8 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
             return ErrorAlert(text: snapshot.error.toString());
           } else {
             if (snapshot.hasData) {
-              topRated =
-                  snapshot.data!.where((movie) => movie.rating == 5).toList();
+              topRated = snapshot.data!.where((movie) {
+                return movie.rating == 5;
+              }).toList();
               topRated.shuffle();
             }
             return ListView(
@@ -68,7 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: medium_14,
                 ),
                 height_16,
-                const SectionTitle(label: "Top Rated"),
+                SectionTitle(
+                  label: "Top Rated",
+                  action: () => Navigator.of(context).pushNamed(
+                    "/movies",
+                    arguments: MoviesListArgs(true),
+                  ),
+                ),
                 height_8,
                 SizedBox(
                   height: 360,
@@ -78,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     clipBehavior: Clip.none,
                     shrinkWrap: true,
                     children: [
-                      for (var i = 0; i < 5; i++)
+                      for (var i = 0; i < 3; i++)
                         snapshot.hasData
                             ? MovieCarouselItem(movie: topRated[i])
                             : const MovieCarouselItemShimmer(),
@@ -86,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 height_16,
-                const SectionTitle(label: "Movies"),
+                SectionTitle(
+                  label: "Movies",
+                  action: () => Navigator.of(context).pushNamed("/movies"),
+                ),
                 height_8,
                 for (var i = 0; i < 3; i++)
                   snapshot.hasData

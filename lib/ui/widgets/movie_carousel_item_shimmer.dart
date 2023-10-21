@@ -35,7 +35,7 @@ class MovieCarouselItemShimmer extends StatelessWidget {
               width: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: imageShadow,
+                boxShadow: darkShadow,
                 color: Colors.white,
               ),
             ),

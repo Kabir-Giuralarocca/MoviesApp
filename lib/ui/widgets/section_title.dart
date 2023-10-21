@@ -38,7 +38,7 @@ class SectionAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => action,
+      onTap: () => action?.call(),
       child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,

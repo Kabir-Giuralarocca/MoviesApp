@@ -13,38 +13,44 @@ class MovieCarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: Stack(
-        alignment: Alignment.topCenter,
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 268),
-            padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
-            width: 232,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.black,
-                  Colors.blueGrey.shade900,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(
+        "/movieDetail",
+        arguments: movie,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Stack(
+          alignment: Alignment.topCenter,
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 268),
+              padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+              width: 232,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.black,
+                    Colors.blueGrey.shade900,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: lightShadow,
               ),
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: lightShadow,
+              child: Text(
+                movie.title,
+                style: semibold_16.copyWith(color: Colors.white),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
-            child: Text(
-              movie.title,
-              style: semibold_16.copyWith(color: Colors.white),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          MovieCarouselPoster(image: movie.image ?? ""),
-        ],
+            MovieCarouselPoster(image: movie.image ?? ""),
+          ],
+        ),
       ),
     );
   }
@@ -64,7 +70,7 @@ class MovieCarouselPoster extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: imageShadow,
+        boxShadow: darkShadow,
         color: Colors.transparent,
       ),
       child: Image.network(

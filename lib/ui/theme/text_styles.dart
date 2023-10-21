@@ -28,6 +28,11 @@ final TextStyle medium_14 = GoogleFonts.montserrat(
   fontWeight: FontWeight.w500,
 );
 
+final TextStyle medium_16 = GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+);
+
 // Semibold
 final TextStyle semibold_12 = GoogleFonts.montserrat(
   fontSize: 12,

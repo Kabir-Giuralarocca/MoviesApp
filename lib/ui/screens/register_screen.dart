@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/helpers/exceptions.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
@@ -69,12 +70,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }).onError((error, stackTrace) {
       _closeLoaderDialog();
       bool userExist = error is UserAlredyExist;
-      ScaffoldMessenger.of(context).showSnackBar(messageSnackBar(
-        message: error.toString(),
-        isError: true,
-        label: userExist ? "Accedi" : null,
-        onPressed: userExist ? () => Navigator.of(context).pop() : null,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(
+          message: error.toString(),
+          isError: true,
+          label: userExist ? "Accedi" : null,
+          onPressed: userExist ? () => Navigator.of(context).pop() : null,
+        ),
+      );
     });
   }
 
@@ -128,8 +131,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height_24,
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate() == true) {
+                    if (_formKey.currentState?.validate() == true &&
+                        defaultTargetPlatform != TargetPlatform.android) {
                       _register();
+                    } else {
+                      Navigator.of(context).pushNamed("/home");
                     }
                   },
                   child: const Text("Registrati"),

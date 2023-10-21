@@ -44,25 +44,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      _showLoaderDialog(context);
-      login(
-        username: usernameController.text,
-        password: passwordController.text,
-      ).then(
-        (value) {
-          _closeLoaderDialog();
-          Navigator.of(context).pushNamed("/home");
-        },
-      ).onError((error, stackTrace) {
+    _showLoaderDialog(context);
+    login(
+      username: usernameController.text,
+      password: passwordController.text,
+    ).then(
+      (value) {
         _closeLoaderDialog();
-        ScaffoldMessenger.of(context).showSnackBar(
-          messageSnackBar(message: error.toString(), isError: true),
-        );
-      });
-    } else {
-      Navigator.of(context).pushNamed("/home");
-    }
+        Navigator.of(context).pushNamed("/home");
+      },
+    ).onError((error, stackTrace) {
+      _closeLoaderDialog();
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(message: error.toString(), isError: true),
+      );
+    });
   }
 
   @override
@@ -116,8 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState?.validate() == true) {
+                if (_formKey.currentState?.validate() == true &&
+                    defaultTargetPlatform != TargetPlatform.android) {
                   _login();
+                } else {
+                  Navigator.of(context).pushNamed("/home");
                 }
               },
               child: const Text("Accedi"),

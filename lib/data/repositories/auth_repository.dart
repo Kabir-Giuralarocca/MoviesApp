@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/helpers/env_variables.dart';
 import 'package:flutter_movies_app/data/helpers/exceptions.dart';
@@ -10,21 +9,19 @@ import 'package:http/http.dart' as http;
 
 Future<void> login({required String username, required String password}) async {
   try {
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      final model = LoginModel(username: username, password: password);
-      final response = await http.post(
-        Uri.https(baseUrl, "/SignIn"),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(model.toJson()),
-      );
-      if (response.statusCode == 401) {
-        throw Unauthorized();
-      }
-      final result = jsonDecode(response.body)["token"];
-      TokenHelper.saveToken(result);
+    final model = LoginModel(username: username, password: password);
+    final response = await http.post(
+      Uri.https(baseUrl, "/SignIn"),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(model.toJson()),
+    );
+    if (response.statusCode == 401) {
+      throw Unauthorized();
     }
+    final result = jsonDecode(response.body)["token"];
+    TokenHelper.saveToken(result);
   } on Unauthorized {
     throw Unauthorized(message: "Credenziali errate!");
   } catch (e) {
@@ -38,22 +35,20 @@ Future<void> register({
   required String password,
 }) async {
   try {
-    if (defaultTargetPlatform != TargetPlatform.android) {
-      final model = RegisterModel(
-        username: username,
-        email: email,
-        password: password,
-      );
-      final response = await http.post(
-        Uri.https(baseUrl, "/SignUp"),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(model.toJson()),
-      );
-      if (response.statusCode == 400) {
-        throw UserAlredyExist();
-      }
+    final model = RegisterModel(
+      username: username,
+      email: email,
+      password: password,
+    );
+    final response = await http.post(
+      Uri.https(baseUrl, "/SignUp"),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(model.toJson()),
+    );
+    if (response.statusCode == 400) {
+      throw UserAlredyExist();
     }
   } on UserAlredyExist {
     throw UserAlredyExist(message: "Questo account esiste già!");

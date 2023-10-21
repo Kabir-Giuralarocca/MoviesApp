@@ -10,7 +10,13 @@ import 'package:http/http.dart' as http;
 
 Future<List<Movie>> movies() async {
   try {
-    if (defaultTargetPlatform != TargetPlatform.android) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      final String response = await rootBundle.loadString('assets/movies.json');
+      Iterable data = await json.decode(response)["items"];
+      final result = data.map((e) => Movie.fromJson(e)).toList();
+      result.shuffle();
+      return result;
+    } else {
       var token = "";
       await TokenHelper.getToken().then((value) => token = value);
       final response = await http.get(
@@ -26,12 +32,6 @@ Future<List<Movie>> movies() async {
         throw Unauthorized();
       }
       Iterable data = jsonDecode(response.body);
-      final result = data.map((e) => Movie.fromJson(e)).toList();
-      result.shuffle();
-      return result;
-    } else {
-      final String response = await rootBundle.loadString('assets/movies.json');
-      Iterable data = await json.decode(response)["items"];
       final result = data.map((e) => Movie.fromJson(e)).toList();
       result.shuffle();
       return result;

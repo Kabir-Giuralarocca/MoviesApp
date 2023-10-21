@@ -4,13 +4,17 @@ import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 class MovieItemShimmer extends StatelessWidget {
   const MovieItemShimmer({
     super.key,
+    this.horizontalPadding = false,
   });
+
+  final bool horizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: 8,
+        horizontal: horizontalPadding ? 16 : 0,
       ),
       child: Stack(
         alignment: Alignment.topLeft,
@@ -60,7 +64,7 @@ class MovieItemShimmer extends StatelessWidget {
               width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: imageShadow,
+                boxShadow: darkShadow,
                 color: Colors.white,
               ),
             ),

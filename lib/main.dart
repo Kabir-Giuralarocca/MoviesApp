@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/ui/screens/create_movie_screen.dart';
 import 'package:flutter_movies_app/ui/screens/home_screen.dart';
 import 'package:flutter_movies_app/ui/screens/login_screen.dart';
 import 'package:flutter_movies_app/ui/screens/movie_detail_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => const LoginScreen(),
         "/register": (context) => const RegisterScreen(),
         "/home": (context) => const HomeScreen(),
+        "/create": (context) => const CreateMovieScreen(),
         "/movies": (context) => const MoviesScreen(),
         "/movieDetail": (context) => const MovieDatailScreen(),
       },

@@ -23,7 +23,7 @@ List<BoxShadow> lightShadow = [
   )
 ];
 
-List<BoxShadow> darkShadow = [
+List<BoxShadow> imageShadow = [
   BoxShadow(
     color: Colors.black.withOpacity(0.25),
     spreadRadius: 2,

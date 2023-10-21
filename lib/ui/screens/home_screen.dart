@@ -77,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     arguments: MoviesListArgs(true),
                   ),
                 ),
-                height_8,
                 SizedBox(
                   height: 360,
                   width: MediaQuery.of(context).size.width,
@@ -98,14 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: "Movies",
                   action: () => Navigator.of(context).pushNamed("/movies"),
                 ),
-                height_8,
                 for (var i = 0; i < 3; i++)
                   snapshot.hasData
                       ? MovieItem(movie: snapshot.data![i])
                       : const MovieItemShimmer(),
                 height_24,
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed("/create"),
                   label: const Text("Aggiungi"),
                   icon: const Icon(Icons.add),
                 ),

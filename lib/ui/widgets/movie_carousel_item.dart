@@ -70,7 +70,7 @@ class MovieCarouselPoster extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        boxShadow: darkShadow,
+        boxShadow: imageShadow,
         color: Colors.transparent,
       ),
       child: Image.network(

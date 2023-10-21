@@ -8,16 +8,18 @@ class FormInput extends StatelessWidget {
     super.key,
     required this.label,
     required this.hint,
-    required this.icon,
+    this.icon,
     this.obscureText = false,
     this.onIconTap,
     this.controller,
     this.validator,
+    this.maxLines,
   });
 
   final String label;
   final String hint;
-  final IconData icon;
+  final IconData? icon;
+  final int? maxLines;
   final bool obscureText;
   final VoidCallback? onIconTap;
   final TextEditingController? controller;
@@ -40,16 +42,19 @@ class FormInput extends StatelessWidget {
             style: regular_14,
             obscureText: obscureText,
             cursorColor: Colors.black,
+            maxLines: maxLines ?? 1,
             decoration: InputDecoration(
               hintText: hint,
               // errorText: "Campo obbligatiorio!",
-              suffixIcon: GestureDetector(
-                onTap: onIconTap,
-                child: Icon(
-                  icon,
-                  size: 24,
-                ),
-              ),
+              suffixIcon: icon != null
+                  ? GestureDetector(
+                      onTap: onIconTap,
+                      child: Icon(
+                        icon,
+                        size: 24,
+                      ),
+                    )
+                  : null,
               suffixIconConstraints: const BoxConstraints(
                 maxHeight: 24,
               ),

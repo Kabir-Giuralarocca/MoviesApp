@@ -36,12 +36,10 @@ class MovieDatailScreen extends StatelessWidget {
                 visibleOnCollapsed: true,
                 child: Text(
                   movie.title,
-                  style: bold_20.copyWith(shadows: darkShadow),
+                  style: bold_20.copyWith(shadows: imageShadow),
                 ),
               ),
               background: Container(
-                width: 320.0,
-                height: 180.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(movie.image ?? ""),

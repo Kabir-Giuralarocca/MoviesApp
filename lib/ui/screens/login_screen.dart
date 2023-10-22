@@ -28,6 +28,13 @@ class _LoginScreenState extends State<LoginScreen> {
         value.isNotEmpty ? Navigator.of(context).pushNamed("/home") : null);
   }
 
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   void _showLoaderDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -87,7 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: Icons.person,
                   controller: usernameController,
                 ),
-                height_16,
                 FormInput(
                   label: "Password",
                   hint: "Password",

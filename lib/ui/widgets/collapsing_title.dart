@@ -42,7 +42,7 @@ class _CollapsingTitleState extends State<CollapsingTitle> {
     final FlexibleSpaceBarSettings? settings =
         context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
     bool visible =
-        settings == null || settings.currentExtent <= settings.minExtent;
+        settings == null || settings.currentExtent <= settings.minExtent + 40;
     if (_visible != visible) {
       setState(() {
         _visible = visible;

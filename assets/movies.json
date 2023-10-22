@@ -604,6 +604,72 @@
          "releaseDate": "1994-02-04T00:00:00",
          "rating": 4,
          "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/pqiRuETmuSybfnVZ7qyeoXhQyN1.jpg"
+      },
+      {
+         "id": 1012,
+         "title": "Mission: Impossible - Dead Reckoning Part One",
+         "description": "Ethan Hunt and his IMF team embark on their most dangerous mission yet: To track down a terrifying new weapon that threatens all of humanity before it falls into the wrong hands. With control of the future and the world's fate at stake and dark forces from Ethan's past closing in, a deadly race around the globe begins. Confronted by a mysterious, all-powerful enemy, Ethan must consider that nothing can matter more than his mission—not even the lives of those he cares about most.",
+         "director": "Christopher McQuarrie",
+         "genre": "Action, Thriller",
+         "duration": "02:44:00",
+         "releaseDate": "2023-07-12T00:00:00",
+         "rating": 4,
+         "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/NNxYkU70HPurnNCSiCjYAmacwm.jpg"
+      },
+      {
+         "id": 1013,
+         "title": "Barbie",
+         "description": "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.",
+         "director": "Greta Gerwig",
+         "genre": "Comedy, Adventure, Fantasy",
+         "duration": "01:54:00",
+         "releaseDate": "2023-07-20T00:00:00",
+         "rating": 2,
+         "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg"
+      },
+      {
+         "id": 1014,
+         "title": "Brothers",
+         "description": "When his helicopter goes down during his fourth tour of duty in Afghanistan, Marine Sam Cahill is presumed dead. Back home, brother Tommy steps in to look over Sam’s wife, Grace, and two children. Sam’s surprise homecoming triggers domestic mayhem.",
+         "director": "Jim Sheridan",
+         "genre": "Drama, Thriller, War",
+         "duration": "01:45:00",
+         "releaseDate": "2009-12-23T00:00:00",
+         "rating": 4,
+         "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ySXRgHCdelVtvUyHcKGpiQKb052.jpg"
+      },
+      {
+         "id": 1015,
+         "title": "Southpaw",
+         "description": "Billy \"The Great\" Hope, the reigning junior middleweight boxing champion, has an impressive career, a loving wife and daughter, and a lavish lifestyle. However, when tragedy strikes, Billy hits rock bottom, losing his family, his house and his manager. He soon finds an unlikely savior in Tick Willis, a former fighter who trains the city's toughest amateur boxers. With his future on the line, Hope fights to reclaim the trust of those he loves the most.",
+         "director": "Antoine Fuqua",
+         "genre": "Action, Drama",
+         "duration": "02:03:00",
+         "releaseDate": "2015-09-02T00:00:00",
+         "rating": 3,
+         "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kSQ49Fi3NVTqGGXILmxV2T2pdkG.jpg"
+      },
+      {
+         "id": 1016,
+         "title": "Oppenheimer",
+         "description": "The story of J. Robert Oppenheimer’s role in the development of the atomic bomb during World War II.",
+         "director": "Christopher Nolan",
+         "genre": "Drama, History",
+         "duration": "03:01:00",
+         "releaseDate": "2023-08-23T00:00:00",
+         "rating": 5,
+         "image": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg"
+      },
+      {
+         "id": 1029,
+         "title": "Meg 2: The Trench",
+         "description": "An exploratory dive into the deepest depths of the ocean of a daring research team spirals into chaos when a malevolent mining operation threatens their mission and forces them into a high-stakes battle for survival.",
+         "director": "Ben Wheatley",
+         "genre": "Action, Science Fiction, Horror",
+         "duration": "01:56:00",
+         "releaseDate": "2023-08-03T00:00:00",
+         "rating": 1,
+         "image": ""
       }
    ]
 }

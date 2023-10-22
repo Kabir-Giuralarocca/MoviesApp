@@ -4,8 +4,20 @@ import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 class AppTheme {
   static final ThemeData theme = ThemeData(
     useMaterial3: true,
-    brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.grey[200],
+    colorScheme: ColorScheme(
+      brightness: Brightness.light,
+      primary: Colors.blueGrey,
+      onPrimary: Colors.white,
+      secondary: Colors.black,
+      onSecondary: Colors.black,
+      error: Colors.red,
+      onError: Colors.black,
+      background: Colors.grey.shade200,
+      onBackground: Colors.black,
+      surface: Colors.white,
+      onSurface: Colors.black,
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.grey[200],
       scrolledUnderElevation: 0,
@@ -61,6 +73,12 @@ class AppTheme {
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Colors.black,
+    ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+      headerBackgroundColor: Colors.blueGrey[900],
+      headerForegroundColor: Colors.white,
     ),
   );
 }

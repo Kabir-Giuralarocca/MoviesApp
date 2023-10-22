@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/models/movie_model.dart';
 import 'package:flutter_movies_app/ui/screens/create_movie_screen.dart';
+import 'package:flutter_movies_app/ui/screens/edit_movie_screen.dart';
 import 'package:flutter_movies_app/ui/screens/home_screen.dart';
 import 'package:flutter_movies_app/ui/screens/login_screen.dart';
 import 'package:flutter_movies_app/ui/screens/movie_detail_screen.dart';
@@ -28,13 +30,19 @@ class MyApp extends StatelessWidget {
       title: 'Movies App',
       theme: AppTheme.theme,
       initialRoute: "/",
-      routes: {
-        "/": (context) => const LoginScreen(),
-        "/register": (context) => const RegisterScreen(),
-        "/home": (context) => const HomeScreen(),
-        "/create": (context) => const CreateMovieScreen(),
-        "/movies": (context) => const MoviesScreen(),
-        "/movieDetail": (context) => const MovieDatailScreen(),
+      onGenerateRoute: (settings) {
+        var args = settings.arguments;
+        var routes = {
+          "/": (context) => const LoginScreen(),
+          "/register": (context) => const RegisterScreen(),
+          "/home": (context) => const HomeScreen(),
+          "/movies": (context) => MoviesScreen(args: args as MoviesListArgs?),
+          "/detail": (context) => MovieDatailScreen(movieId: args as int),
+          "/create": (context) => const CreateMovieScreen(),
+          "/edit": (context) => EditMovieScreen(movie: args as Movie),
+        };
+        WidgetBuilder builder = routes[settings.name]!;
+        return MaterialPageRoute(builder: (context) => builder(context));
       },
     );
   }

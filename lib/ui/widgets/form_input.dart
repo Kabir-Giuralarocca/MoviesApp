@@ -14,6 +14,7 @@ class FormInput extends StatelessWidget {
     this.controller,
     this.validator,
     this.maxLines,
+    this.onTap,
   });
 
   final String label;
@@ -24,11 +25,13 @@ class FormInput extends StatelessWidget {
   final VoidCallback? onIconTap;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: formInputDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,6 +46,8 @@ class FormInput extends StatelessWidget {
             obscureText: obscureText,
             cursorColor: Colors.black,
             maxLines: maxLines ?? 1,
+            readOnly: onTap != null,
+            onTap: onTap,
             decoration: InputDecoration(
               hintText: hint,
               // errorText: "Campo obbligatiorio!",

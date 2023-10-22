@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/models/movie_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
+import 'package:flutter_movies_app/ui/widgets/image_placeholder.dart';
 
 class MovieCarouselItem extends StatelessWidget {
   const MovieCarouselItem({
@@ -15,8 +16,8 @@ class MovieCarouselItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
-        "/movieDetail",
-        arguments: movie,
+        "/detail",
+        arguments: movie.id,
       ),
       child: Padding(
         padding: const EdgeInsets.only(right: 8),
@@ -78,6 +79,9 @@ class MovieCarouselPoster extends StatelessWidget {
         height: 300,
         width: 200,
         fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const ImagePlaceholder(height: 300, width: 200);
+        },
       ),
     );
   }

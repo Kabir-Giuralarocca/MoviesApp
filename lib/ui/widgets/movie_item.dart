@@ -3,6 +3,7 @@ import 'package:flutter_movies_app/data/helpers/movie_helper.dart';
 import 'package:flutter_movies_app/data/models/movie_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
+import 'package:flutter_movies_app/ui/widgets/image_placeholder.dart';
 
 class MovieItem extends StatelessWidget {
   const MovieItem({
@@ -18,8 +19,8 @@ class MovieItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
-        "/movieDetail",
-        arguments: movie,
+        "/detail",
+        arguments: movie.id,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -61,10 +62,12 @@ class MovieItem extends StatelessWidget {
                   ),
                   height_4,
                   Text(
-                    "${movie.director}  •  ${movie.formatDate()}",
+                    "${movie.releaseDate.formatDate()}  •  ${movie.director}",
                     style: medium_10.copyWith(
                       color: Colors.grey[700],
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   filler,
                   Text(
@@ -108,6 +111,9 @@ class MoviePoster extends StatelessWidget {
         height: 180,
         width: 120,
         fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return const ImagePlaceholder();
+        },
       ),
     );
   }

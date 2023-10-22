@@ -5,18 +5,22 @@ import 'package:flutter_movies_app/data/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
+import 'package:flutter_movies_app/ui/widgets/collapsing_title.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
 import 'package:flutter_movies_app/ui/widgets/loading_screen.dart';
 
-class CreateMovieScreen extends StatefulWidget {
-  const CreateMovieScreen({super.key});
+class EditMovieScreen extends StatefulWidget {
+  const EditMovieScreen({super.key, required this.movie});
+
+  final Movie movie;
 
   @override
-  State<CreateMovieScreen> createState() => _CreateMovieScreenState();
+  State<EditMovieScreen> createState() => _EditMovieScreenState();
 }
 
-class _CreateMovieScreenState extends State<CreateMovieScreen> {
+class _EditMovieScreenState extends State<EditMovieScreen> {
   bool loader = false;
+  late Movie movie;
 
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -30,6 +34,13 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
   DateTime releaseDate = DateTime.now();
   int rating = 0;
 
+  @override
+  void initState() {
+    movie = widget.movie;
+    super.initState();
+    _fillForm(movie);
+  }
+
   void _showLoader(bool show) => setState(() => loader = show);
 
   @override
@@ -42,19 +53,6 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
     descriptionController.dispose();
     imageController.dispose();
     super.dispose();
-  }
-
-  void _clearForm() {
-    titleController.clear();
-    directorController.clear();
-    genreController.clear();
-    durationController.clear();
-    releaseDateController.clear();
-    descriptionController.clear();
-    imageController.clear();
-    duration = const TimeOfDay(hour: 0, minute: 0);
-    releaseDate = DateTime.now();
-    rating = 0;
   }
 
   void _selectTime(BuildContext context) async {
@@ -87,18 +85,68 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
     });
   }
 
-  void _createMovie() {
+  _fillForm(Movie movie) {
+    titleController.text = movie.title;
+    directorController.text = movie.director;
+    genreController.text = movie.genre;
+    durationController.text = movie.duration.formatDuration();
+    releaseDateController.text = movie.releaseDate.formatDate();
+    descriptionController.text = movie.description;
+    imageController.text = movie.image ?? "";
+    duration = movie.duration;
+    releaseDate = movie.releaseDate;
+    rating = movie.rating;
+  }
+
+  void _showExitDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Se esci perderai le modifiche fatte in questa pagina!",
+                  style: bold_14,
+                ),
+                height_16,
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Esci"),
+                ),
+                height_8,
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Annulla"),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _editMovie() {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      _clearForm();
-      ScaffoldMessenger.of(context).showSnackBar(
-        messageSnackBar(
-          message: "Film creato con successo!",
-        ),
-      );
+      Navigator.pop(context);
     } else {
       _showLoader(true);
-      createMovie(
+      editMovie(
         Movie(
+          id: movie.id,
           title: titleController.text,
           description: descriptionController.text,
           director: directorController.text,
@@ -110,12 +158,7 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
         ),
       ).then((value) {
         _showLoader(false);
-        _clearForm();
-        ScaffoldMessenger.of(context).showSnackBar(
-          messageSnackBar(
-            message: "Film creato con successo!",
-          ),
-        );
+        Navigator.pop(context);
       }).onError((error, stackTrace) {
         _showLoader(false);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -137,23 +180,48 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
           clipBehavior: Clip.none,
           slivers: [
             SliverAppBar(
+              automaticallyImplyLeading: false,
               pinned: true,
-              expandedHeight: 120,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(
-                  "Aggiungi Film",
-                  style: bold_24.copyWith(color: Colors.black),
+              expandedHeight: 300,
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.black,
+              centerTitle: true,
+              actions: [
+                GestureDetector(
+                  onTap: () => _showExitDialog(context),
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 16),
+                    child: Icon(Icons.close),
+                  ),
+                )
+              ],
+              title: CollapsingTitle(
+                child: Text(
+                  movie.title,
+                  style: bold_20,
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Text(
-                  "Inserisci tutte le informazioni per creare un nuovo film ed aggiungerlo alla tua lista.",
-                  style: medium_14,
-                  textAlign: TextAlign.center,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                titlePadding: const EdgeInsets.all(16),
+                title: CollapsingTitle(
+                  visibleOnCollapsed: true,
+                  child: Text(
+                    movie.title,
+                    style: bold_20.copyWith(shadows: imageShadow),
+                  ),
+                ),
+                background: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(movie.image ?? ""),
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.4),
+                        BlendMode.darken,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -188,7 +256,8 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
                         ),
                         FormInput(
                           label: "Data di uscita",
-                          hint: "dd/mm/yyyy",
+                          hint: "--/--/--",
+                          icon: Icons.calendar_today,
                           onTap: () => _selectDate(context),
                           controller: releaseDateController,
                         ),
@@ -238,10 +307,10 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState?.validate() == true) {
-                                _createMovie();
+                                _editMovie();
                               }
                             },
-                            child: const Text("Aggiungi"),
+                            child: const Text("Modifica"),
                           ),
                         ),
                       ],

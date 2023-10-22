@@ -81,3 +81,38 @@ class BaseShimmer extends StatelessWidget {
     );
   }
 }
+
+// Pickers
+Future<TimeOfDay?> durationPicker(
+  BuildContext context,
+  TimeOfDay initialTime,
+) async {
+  return showTimePicker(
+    context: context,
+    initialTime: initialTime,
+    initialEntryMode: TimePickerEntryMode.inputOnly,
+    builder: (context, child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          alwaysUse24HourFormat: true,
+        ),
+        child: child ?? Container(),
+      );
+    },
+  );
+}
+
+Future<DateTime?> realeaseDatePicker(
+  BuildContext context,
+  DateTime releaseDate,
+) async {
+  return showDatePicker(
+    context: context,
+    initialDate: releaseDate,
+    firstDate: DateTime(1900),
+    lastDate: DateTime(2050),
+    helpText: "Data di uscita",
+    confirmText: "Salva",
+    cancelText: "Annulla",
+  );
+}

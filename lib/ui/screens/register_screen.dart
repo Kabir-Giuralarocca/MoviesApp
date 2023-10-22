@@ -22,6 +22,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   void _showLoaderDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -107,7 +115,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   icon: Icons.person,
                   controller: usernameController,
                 ),
-                height_16,
                 FormInput(
                   label: "Email",
                   hint: "es. mario.rossi@mail.it",
@@ -115,7 +122,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: emailController,
                   validator: emailValidator,
                 ),
-                height_16,
                 FormInput(
                   label: "Password",
                   hint: "Password",
@@ -128,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: passwordController,
                   validator: passwordValidator,
                 ),
-                height_24,
+                height_8,
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() == true &&

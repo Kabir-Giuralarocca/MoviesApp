@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Movie>> movieList;
   List<Movie> topRated = [];
+  List<Movie> allMovies = [];
 
   @override
   void initState() {
@@ -48,69 +49,79 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: FutureBuilder(
-        future: movieList,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return ErrorAlert(text: snapshot.error.toString());
-          } else {
-            if (snapshot.hasData) {
-              topRated = snapshot.data!.where((movie) {
-                return movie.rating == 5;
-              }).toList();
-              topRated.shuffle();
+      body: RefreshIndicator(
+        child: FutureBuilder(
+          future: movieList,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return ErrorAlert(text: snapshot.error.toString());
+            } else {
+              if (snapshot.hasData) {
+                topRated = snapshot.data!.where((movie) {
+                  return movie.rating == 5;
+                }).toList();
+                topRated.shuffle();
+
+                allMovies = snapshot.data!;
+                allMovies.shuffle();
+              }
+              return ListView(
+                clipBehavior: Clip.none,
+                padding: const EdgeInsets.all(16),
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    "Gestisti e cataloga tutti i tuoi film preferiti in un unico posto",
+                    style: medium_14,
+                  ),
+                  height_16,
+                  SectionTitle(
+                    label: "Top Rated",
+                    action: () => Navigator.of(context).pushNamed(
+                      "/movies",
+                      arguments: MoviesListArgs(true),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 360,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      shrinkWrap: true,
+                      children: [
+                        for (var i = 0; i < 3; i++)
+                          snapshot.hasData
+                              ? MovieCarouselItem(movie: topRated[i])
+                              : const MovieCarouselItemShimmer(),
+                      ],
+                    ),
+                  ),
+                  height_16,
+                  SectionTitle(
+                    label: "Movies",
+                    action: () => Navigator.of(context).pushNamed("/movies"),
+                  ),
+                  for (var i = 0; i < 3; i++)
+                    snapshot.hasData
+                        ? MovieItem(movie: snapshot.data![i])
+                        : const MovieItemShimmer(),
+                  height_24,
+                  OutlinedButton.icon(
+                    onPressed: () => Navigator.of(context).pushNamed("/create"),
+                    label: const Text("Aggiungi"),
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+              );
             }
-            return ListView(
-              clipBehavior: Clip.none,
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              children: [
-                Text(
-                  "Gestisti e cataloga tutti i tuoi film preferiti in un unico posto",
-                  style: medium_14,
-                ),
-                height_16,
-                SectionTitle(
-                  label: "Top Rated",
-                  action: () => Navigator.of(context).pushNamed(
-                    "/movies",
-                    arguments: MoviesListArgs(true),
-                  ),
-                ),
-                SizedBox(
-                  height: 360,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    clipBehavior: Clip.none,
-                    shrinkWrap: true,
-                    children: [
-                      for (var i = 0; i < 3; i++)
-                        snapshot.hasData
-                            ? MovieCarouselItem(movie: topRated[i])
-                            : const MovieCarouselItemShimmer(),
-                    ],
-                  ),
-                ),
-                height_16,
-                SectionTitle(
-                  label: "Movies",
-                  action: () => Navigator.of(context).pushNamed("/movies"),
-                ),
-                for (var i = 0; i < 3; i++)
-                  snapshot.hasData
-                      ? MovieItem(movie: snapshot.data![i])
-                      : const MovieItemShimmer(),
-                height_24,
-                OutlinedButton.icon(
-                  onPressed: () => Navigator.of(context).pushNamed("/create"),
-                  label: const Text("Aggiungi"),
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-            );
-          }
-        },
+          },
+        ),
+        onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            movieList = movies();
+          });
+        }),
       ),
     );
   }

@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/helpers/movie_helper.dart';
+
 class Movie {
   final int id;
   final String title;
   final String description;
   final String director;
   final String genre;
-  final String duration;
+  final TimeOfDay duration;
   final DateTime releaseDate;
   final int rating;
   final String? image;
@@ -28,8 +31,8 @@ class Movie {
       'description': description,
       'director': director,
       'genre': genre,
-      'duration': duration,
-      'releaseDate': releaseDate,
+      'duration': duration.toJsonType(),
+      'releaseDate': releaseDate.toJsonType(),
       'rating': rating,
       'image': image,
     };
@@ -42,7 +45,7 @@ class Movie {
       description: map['description'] as String,
       director: map['director'] as String,
       genre: map['genre'] as String,
-      duration: map['duration'] as String,
+      duration: (map['duration'] as String).toTimeOfDay(),
       releaseDate: DateTime.parse(
         map['releaseDate'] as String,
       ),

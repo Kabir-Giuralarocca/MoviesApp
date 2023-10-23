@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Movies App',
+      title: 'Movies',
       theme: AppTheme.theme,
       initialRoute: "/",
       onGenerateRoute: (settings) => onGenerateRoute(settings),

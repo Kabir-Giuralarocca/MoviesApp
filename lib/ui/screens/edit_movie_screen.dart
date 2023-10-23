@@ -77,9 +77,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
   }
 
   void _onRatingChange(int index) {
-    setState(() {
-      rating == index + 1 && index != 0 ? rating-- : rating = index + 1;
-    });
+    setState(() => rating == index + 1 ? rating-- : rating = index + 1);
   }
 
   _fillForm(Movie movie) {

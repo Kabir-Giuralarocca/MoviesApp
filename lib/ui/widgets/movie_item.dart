@@ -50,12 +50,7 @@ class MovieItem extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Row(
-                    children: [
-                      for (var i = 0; i < movie.rating; i++)
-                        const Star(size: 10),
-                    ],
-                  ),
+                  Stars(size: 12, rating: movie.rating),
                   height_4,
                   Text(
                     "${movie.releaseDate.formatDate()}  •  ${movie.director}",

@@ -97,12 +97,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
                           children: [
                             MovieInfo(
                               label: "VALUTAZIONE",
-                              child: Row(
-                                children: [
-                                  for (var i = 0; i < detail.rating; i++)
-                                    const Star(),
-                                ],
-                              ),
+                              child: Stars(rating: detail.rating),
                             ),
                             MovieInfo(
                               label: "DURATA",

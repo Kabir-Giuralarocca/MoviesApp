@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
+import 'package:flutter_movies_app/ui/widgets/star.dart';
 
 class RatingStarsInput extends StatelessWidget {
   const RatingStarsInput({
@@ -27,19 +28,10 @@ class RatingStarsInput extends StatelessWidget {
             style: semibold_12.copyWith(color: Colors.grey[700]),
           ),
           height_4,
-          Row(
-            children: [
-              for (var i = 0; i < 5; i++)
-                GestureDetector(
-                  onTap: () => onTap(i),
-                  child: Icon(
-                    rating > i ? Icons.star : Icons.star_border,
-                    size: 36,
-                    color: rating > i ? Colors.amber : Colors.grey,
-                    shadows: lightShadow,
-                  ),
-                ),
-            ],
+          Stars(
+            size: 36,
+            rating: rating,
+            onTap: (index) => onTap(index),
           ),
         ],
       ),

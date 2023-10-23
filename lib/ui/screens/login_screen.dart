@@ -1,11 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/helpers/token_helper.dart';
+import 'package:flutter_movies_app/data/env_variables.dart';
+import 'package:flutter_movies_app/domain/models/login_model.dart';
+import 'package:flutter_movies_app/domain/token.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/utils/form_validators.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
+import 'package:flutter_movies_app/ui/widgets/loading_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,53 +17,38 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  BuildContext? dialogContext;
-  bool obscurePassword = true;
+  bool loader = false;
+  bool obscurePwd = true;
   final _formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final username = TextEditingController();
+  final password = TextEditingController();
+
+  void _showLoader(bool show) => setState(() => loader = show);
 
   @override
   void initState() {
     super.initState();
-    TokenHelper.getToken().then((value) =>
-        value.isNotEmpty ? Navigator.of(context).pushNamed("/home") : null);
+    Token.getToken().then((value) {
+      return value.isNotEmpty ? Navigator.pushNamed(context, "/home") : null;
+    });
   }
 
   @override
   void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
+    username.dispose();
+    password.dispose();
     super.dispose();
   }
 
-  void _showLoaderDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialog) {
-        dialogContext = dialog;
-        return loaderDialog;
-      },
-    );
-  }
-
-  void _closeLoaderDialog() {
-    dialogContext != null ? Navigator.pop(dialogContext!) : null;
-  }
-
   void _login() {
-    _showLoaderDialog(context);
-    login(
-      username: usernameController.text,
-      password: passwordController.text,
-    ).then(
+    _showLoader(true);
+    login(LoginModel(username: username.text, password: password.text)).then(
       (value) {
-        _closeLoaderDialog();
+        _showLoader(false);
         Navigator.of(context).pushNamed("/home");
       },
     ).onError((error, stackTrace) {
-      _closeLoaderDialog();
+      _showLoader(false);
       ScaffoldMessenger.of(context).showSnackBar(
         messageSnackBar(message: error.toString(), isError: true),
       );
@@ -70,69 +57,70 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          height_68,
-          Text(
-            "Accedi",
-            style: bold_36,
-          ),
-          Text(
-            "Inserisci le tue credenziali per poter accedere all'applicazione.",
-            style: medium_14,
-          ),
-          height_24,
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                FormInput(
-                  label: "Username",
-                  hint: "es. MarioRossi",
-                  icon: Icons.person,
-                  controller: usernameController,
-                ),
-                FormInput(
-                  label: "Password",
-                  hint: "Password",
-                  icon:
-                      obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  obscureText: obscurePassword,
-                  onIconTap: () => setState(() {
-                    obscurePassword = !obscurePassword;
-                  }),
-                  controller: passwordController,
-                  validator: passwordValidator,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return LoadingScreen(
+      showLoader: loader,
+      child: Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState?.validate() == true &&
-                    defaultTargetPlatform != TargetPlatform.android) {
-                  _login();
-                } else {
-                  Navigator.of(context).pushNamed("/home");
-                }
-              },
-              child: const Text("Accedi"),
+            height_68,
+            Text(
+              "Accedi",
+              style: bold_36,
             ),
-            height_8,
-            OutlinedButton(
-              onPressed: () => Navigator.of(context).pushNamed("/register"),
-              child: const Text("Registrati"),
+            Text(
+              "Inserisci le tue credenziali per poter accedere all'applicazione.",
+              style: medium_14,
+            ),
+            height_24,
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  FormInput(
+                    label: "Username",
+                    hint: "es. MarioRossi",
+                    icon: Icons.person,
+                    controller: username,
+                  ),
+                  FormInput(
+                    label: "Password",
+                    hint: "Password",
+                    icon: obscurePwd ? Icons.visibility : Icons.visibility_off,
+                    obscureText: obscurePwd,
+                    onIconTap: () => setState(() => obscurePwd = !obscurePwd),
+                    controller: password,
+                    validator: passwordValidator,
+                  ),
+                ],
+              ),
             ),
           ],
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (isMobile) {
+                    Navigator.pushNamed(context, "/home");
+                  } else {
+                    if (_formKey.currentState?.validate() == true) {
+                      _login();
+                    }
+                  }
+                },
+                child: const Text("Accedi"),
+              ),
+              height_8,
+              OutlinedButton(
+                onPressed: () => Navigator.pushNamed(context, "/register"),
+                child: const Text("Registrati"),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -23,11 +23,7 @@ class ImagePlaceholder extends StatelessWidget {
         color: Colors.blueGrey[900],
       ),
       child: const Center(
-        child: Icon(
-          Icons.movie,
-          size: 48,
-          color: Colors.white,
-        ),
+        child: Icon(Icons.movie, size: 48, color: Colors.white),
       ),
     );
   }

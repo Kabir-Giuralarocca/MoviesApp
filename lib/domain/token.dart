@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TokenHelper {
+class Token {
   static const tokenKey = "token_key";
 
   static Future<String> getToken() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:flutter_movies_app/ui/theme/app_theme.dart';
+import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 
 const width_4 = SizedBox(width: 4);
 
@@ -32,20 +33,6 @@ List<BoxShadow> imageShadow = [
   )
 ];
 
-// Loader
-Dialog loaderDialog = const Dialog(
-  backgroundColor: Colors.transparent,
-  surfaceTintColor: Colors.transparent,
-  shadowColor: Colors.transparent,
-  child: Row(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      CircularProgressIndicator(),
-    ],
-  ),
-);
-
 // SnackBar
 SnackBar messageSnackBar({
   required String message,
@@ -60,26 +47,6 @@ SnackBar messageSnackBar({
         ? SnackBarAction(label: label, onPressed: onPressed)
         : null,
   );
-}
-
-// Shimmer
-class BaseShimmer extends StatelessWidget {
-  const BaseShimmer({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade400,
-      highlightColor: Colors.grey.shade500,
-      period: const Duration(seconds: 1),
-      child: child,
-    );
-  }
 }
 
 // Pickers
@@ -114,5 +81,81 @@ Future<DateTime?> realeaseDatePicker(
     helpText: "Data di uscita",
     confirmText: "Salva",
     cancelText: "Annulla",
+  );
+}
+
+// Dialogs
+Dialog confirmDelete(
+  BuildContext context,
+  String movieTitle,
+  void Function() callback,
+) {
+  return Dialog(
+    child: Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Sei sicuro di voler eliminare $movieTitle?",
+            style: bold_14,
+          ),
+          height_16,
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              callback.call();
+            },
+            style: deleteStyle(context),
+            child: const Text("Elimina"),
+          ),
+          height_8,
+          OutlinedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Annulla"),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Dialog exitDialog(BuildContext context) {
+  return Dialog(
+    child: Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Se esci perderai le modifiche fatte in questa pagina!",
+            style: bold_14,
+          ),
+          height_16,
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text("Esci"),
+          ),
+          height_8,
+          OutlinedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Annulla"),
+          )
+        ],
+      ),
+    ),
   );
 }

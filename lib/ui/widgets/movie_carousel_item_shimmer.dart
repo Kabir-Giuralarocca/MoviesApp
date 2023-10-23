@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
+import 'package:flutter_movies_app/ui/widgets/base_shimmer.dart';
 
 class MovieCarouselItemShimmer extends StatelessWidget {
   const MovieCarouselItemShimmer({super.key});

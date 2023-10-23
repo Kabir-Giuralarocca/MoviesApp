@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/helpers/exceptions.dart';
+import 'package:flutter_movies_app/data/env_variables.dart';
+import 'package:flutter_movies_app/domain/exceptions.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
+import 'package:flutter_movies_app/domain/models/register_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/utils/form_validators.dart';
@@ -15,75 +16,71 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  BuildContext? dialogContext;
-  bool obscurePassword = true;
+  bool loader = false;
+  bool obscurePwd = true;
   final _formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final username = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  void _showLoader(bool show) => setState(() => loader = show);
 
   @override
   void dispose() {
-    usernameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    username.dispose();
+    email.dispose();
+    password.dispose();
     super.dispose();
   }
 
-  void _showLoaderDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialog) {
-        dialogContext = dialog;
-        return loaderDialog;
-      },
-    );
-  }
-
-  void _closeLoaderDialog() {
-    dialogContext != null ? Navigator.pop(dialogContext!) : null;
-  }
-
-  void _register() {
-    _showLoaderDialog(context);
-
-    // registerWithLogin(
-    //   username: usernameController.text,
-    //   email: emailController.text,
-    //   password: passwordController.text,
-    // ).then((value) {
-    //   _closeLoaderDialog();
-    //   Navigator.of(context).pushNamed("/home");
-    // }).onError((error, stackTrace) {
-    //   _closeLoaderDialog();
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     messageSnackBar(message: error.toString(), isError: true),
-    //   );
-    // });
-
-    register(
-      username: usernameController.text,
-      email: emailController.text,
-      password: passwordController.text,
-    ).then((value) {
-      _closeLoaderDialog();
-      ScaffoldMessenger.of(context).showSnackBar(
-        messageSnackBar(
-          message: "Account creato con successo!",
-          label: "Accedi",
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      );
+  // ignore: unused_element
+  void _registerWithLogin() {
+    _showLoader(true);
+    registerWithLogin(RegisterModel(
+      username: username.text,
+      email: email.text,
+      password: password.text,
+    )).then((value) {
+      _showLoader(false);
+      Navigator.pushNamed(context, "/home");
     }).onError((error, stackTrace) {
-      _closeLoaderDialog();
+      _showLoader(false);
       bool userExist = error is UserAlredyExist;
       ScaffoldMessenger.of(context).showSnackBar(
         messageSnackBar(
           message: error.toString(),
           isError: true,
           label: userExist ? "Accedi" : null,
-          onPressed: userExist ? () => Navigator.of(context).pop() : null,
+          onPressed: userExist ? () => Navigator.pop(context) : null,
+        ),
+      );
+    });
+  }
+
+  void _register() {
+    _showLoader(true);
+    register(RegisterModel(
+      username: username.text,
+      email: email.text,
+      password: password.text,
+    )).then((value) {
+      _showLoader(false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(
+          message: "Account creato con successo!",
+          label: "Accedi",
+          onPressed: () => Navigator.pop(context),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      _showLoader(false);
+      bool userExist = error is UserAlredyExist;
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(
+          message: error.toString(),
+          isError: true,
+          label: userExist ? "Accedi" : null,
+          onPressed: userExist ? () => Navigator.pop(context) : null,
         ),
       );
     });
@@ -113,35 +110,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Username",
                   hint: "es. MarioRossi",
                   icon: Icons.person,
-                  controller: usernameController,
+                  controller: username,
                 ),
                 FormInput(
                   label: "Email",
                   hint: "es. mario.rossi@mail.it",
                   icon: Icons.email,
-                  controller: emailController,
+                  controller: email,
                   validator: emailValidator,
                 ),
                 FormInput(
                   label: "Password",
                   hint: "Password",
-                  icon:
-                      obscurePassword ? Icons.visibility : Icons.visibility_off,
-                  obscureText: obscurePassword,
-                  onIconTap: () => setState(() {
-                    obscurePassword = !obscurePassword;
-                  }),
-                  controller: passwordController,
+                  icon: obscurePwd ? Icons.visibility : Icons.visibility_off,
+                  obscureText: obscurePwd,
+                  onIconTap: () => setState(() => obscurePwd = !obscurePwd),
+                  controller: password,
                   validator: passwordValidator,
                 ),
                 height_8,
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate() == true &&
-                        defaultTargetPlatform != TargetPlatform.android) {
-                      _register();
+                    if (isMobile) {
+                      Navigator.pushNamed(context, "/home");
                     } else {
-                      Navigator.of(context).pushNamed("/home");
+                      if (_formKey.currentState?.validate() == true) {
+                        _register();
+                      }
                     }
                   },
                   child: const Text("Registrati"),

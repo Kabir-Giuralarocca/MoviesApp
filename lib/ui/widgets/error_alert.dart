@@ -31,10 +31,7 @@ class ErrorAlert extends StatelessWidget {
               size: 32,
             ),
             height_16,
-            Text(
-              text,
-              style: medium_14,
-            ),
+            Text(text, style: medium_14),
           ],
         ),
       ),

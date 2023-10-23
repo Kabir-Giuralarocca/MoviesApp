@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/models/movie_model.dart';
+import 'package:flutter_movies_app/data/env_variables.dart';
+import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
-import 'package:flutter_movies_app/ui/theme/text_styles.dart';
+import 'package:flutter_movies_app/ui/widgets/collapsing_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
+import 'package:flutter_movies_app/ui/widgets/list_description.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_item.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_item_shimmer.dart';
 
@@ -19,96 +21,74 @@ class MoviesScreen extends StatefulWidget {
 }
 
 class _MoviesScreenState extends State<MoviesScreen> {
-  late final bool showTopRated;
+  late final bool showTop;
   late Future<List<Movie>> movieList;
   List<Movie> topRated = [];
+  int moviesCount = 0;
 
   @override
   void initState() {
     super.initState();
-    showTopRated = widget.args?.showTopRated ?? false;
-    movieList = movies();
+    showTop = widget.args?.showTop ?? false;
+    movieList = isMobile ? moviesFake() : movies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
+        onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            movieList = isMobile ? moviesFake() : movies();
+          });
+        }),
         child: FutureBuilder(
           future: movieList,
           builder: (context, snapshot) {
+            List<Movie> movies = snapshot.data ?? [];
             if (snapshot.hasError) {
               return ErrorAlert(text: snapshot.error.toString());
             } else {
               if (snapshot.hasData) {
-                topRated = snapshot.data!.where((movie) {
-                  return movie.rating == 5;
-                }).toList();
+                topRated = movies.where((movie) => movie.rating == 5).toList();
+                moviesCount = showTop ? topRated.length : movies.length;
               }
               return CustomScrollView(
                 clipBehavior: Clip.none,
                 slivers: [
-                  SliverAppBar(
-                    pinned: true,
-                    expandedHeight: 120,
-                    flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: Text(
-                        showTopRated ? "Top Rated Movies" : "Movies",
-                        style: bold_24.copyWith(color: Colors.black),
-                      ),
-                    ),
+                  CollapsingAppBar(
+                    title: showTop ? "Top Rated Movies" : "Movies",
                   ),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                      child: Text(
-                        showTopRated
-                            ? "Qui puoi vedere la raccolta di tutti i tuoi film preferiti (5 stars rated), che hai inserito nell'applicazione."
-                            : "Qui puoi vedere la raccolta di tutti i tuoi film che hai inserito nell'applicazione.",
-                        style: medium_14,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                  ListDescription(
+                    text: showTop
+                        ? "Qui puoi vedere la raccolta di tutti i tuoi film preferiti (5 stars rated), che hai inserito nell'applicazione."
+                        : "Qui puoi vedere la raccolta di tutti i tuoi film che hai inserito nell'applicazione.",
                   ),
-                  snapshot.hasData
-                      ? SliverList.builder(
-                          itemCount: showTopRated
-                              ? topRated.length
-                              : snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return MovieItem(
-                              movie: showTopRated
-                                  ? topRated[index]
-                                  : snapshot.data![index],
-                              horizontalPadding: true,
-                            );
-                          },
-                        )
-                      : SliverList.builder(
-                          itemBuilder: (context, index) {
-                            return const MovieItemShimmer(
-                              horizontalPadding: true,
-                            );
-                          },
-                        ),
+                  SliverList.builder(
+                    itemCount: snapshot.hasData ? moviesCount : 5,
+                    itemBuilder: (context, index) {
+                      if (snapshot.hasData) {
+                        return MovieItem(
+                          movie: showTop ? topRated[index] : movies[index],
+                          horizontalPadding: true,
+                        );
+                      } else {
+                        return const MovieItemShimmer(horizontalPadding: true);
+                      }
+                    },
+                  ),
                 ],
               );
             }
           },
         ),
-        onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            movieList = movies();
-          });
-        }),
       ),
     );
   }
 }
 
 class MoviesListArgs {
-  final bool showTopRated;
+  final bool showTop;
 
-  MoviesListArgs(this.showTopRated);
+  MoviesListArgs(this.showTop);
 }

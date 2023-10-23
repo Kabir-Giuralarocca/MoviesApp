@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/helpers/movie_helper.dart';
-import 'package:flutter_movies_app/data/models/movie_model.dart';
+import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
+import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/image_placeholder.dart';
+import 'package:flutter_movies_app/ui/widgets/movie_poster.dart';
+import 'package:flutter_movies_app/ui/widgets/star.dart';
 
 class MovieItem extends StatelessWidget {
   const MovieItem({
@@ -52,12 +53,7 @@ class MovieItem extends StatelessWidget {
                   Row(
                     children: [
                       for (var i = 0; i < movie.rating; i++)
-                        Icon(
-                          Icons.star,
-                          size: 10,
-                          color: Colors.amber,
-                          shadows: lightShadow,
-                        ),
+                        const Star(size: 10),
                     ],
                   ),
                   height_4,
@@ -81,39 +77,9 @@ class MovieItem extends StatelessWidget {
                 ],
               ),
             ),
-            MoviePoster(image: movie.image ?? ""),
+            MoviePoster(image: movie.image),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MoviePoster extends StatelessWidget {
-  const MoviePoster({
-    super.key,
-    required this.image,
-  });
-
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: imageShadow,
-        color: Colors.white,
-      ),
-      child: Image.network(
-        image,
-        height: 180,
-        width: 120,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return const ImagePlaceholder();
-        },
       ),
     );
   }

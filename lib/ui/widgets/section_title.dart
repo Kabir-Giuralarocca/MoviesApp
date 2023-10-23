@@ -19,10 +19,7 @@ class SectionTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: bold_20,
-          ),
+          Text(label, style: bold_20),
           SectionAction(action: action),
         ],
       ),
@@ -43,10 +40,7 @@ class SectionAction extends StatelessWidget {
     return GestureDetector(
       onTap: () => action?.call(),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 4,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
           color: Colors.blueGrey.shade900,
           borderRadius: BorderRadius.circular(64),
@@ -54,10 +48,7 @@ class SectionAction extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text(
-              "Vedi tutti",
-              style: regular_10.copyWith(color: Colors.white),
-            ),
+            Text("Vedi tutti", style: regular_10.copyWith(color: Colors.white)),
             const Icon(
               Icons.keyboard_arrow_right,
               color: Colors.white,

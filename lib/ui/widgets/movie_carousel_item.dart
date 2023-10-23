@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/models/movie_model.dart';
+import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/image_placeholder.dart';
+import 'package:flutter_movies_app/ui/widgets/movie_poster.dart';
 
 class MovieCarouselItem extends StatelessWidget {
   const MovieCarouselItem({
@@ -31,10 +31,7 @@ class MovieCarouselItem extends StatelessWidget {
               width: 232,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.black,
-                    Colors.blueGrey.shade900,
-                  ],
+                  colors: [Colors.black, Colors.blueGrey.shade900],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -49,39 +46,9 @@ class MovieCarouselItem extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            MovieCarouselPoster(image: movie.image ?? ""),
+            MoviePoster(image: movie.image, width: 200, height: 300),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MovieCarouselPoster extends StatelessWidget {
-  const MovieCarouselPoster({
-    super.key,
-    required this.image,
-  });
-
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: imageShadow,
-        color: Colors.transparent,
-      ),
-      child: Image.network(
-        image,
-        height: 300,
-        width: 200,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return const ImagePlaceholder(height: 300, width: 200);
-        },
       ),
     );
   }

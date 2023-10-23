@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({
     super.key,
-    required this.loadingScreen,
+    required this.child,
     required this.showLoader,
   });
 
-  final Widget loadingScreen;
+  final Widget child;
   final bool showLoader;
 
   @override
@@ -16,10 +16,7 @@ class LoadingScreen extends StatelessWidget {
       children: [
         Opacity(
           opacity: showLoader ? 0.3 : 1,
-          child: AbsorbPointer(
-            absorbing: showLoader,
-            child: loadingScreen,
-          ),
+          child: AbsorbPointer(absorbing: showLoader, child: child),
         ),
         Visibility(
           visible: showLoader,

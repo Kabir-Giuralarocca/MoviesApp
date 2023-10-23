@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/helpers/env_variables.dart';
-import 'package:flutter_movies_app/data/helpers/exceptions.dart';
-import 'package:flutter_movies_app/data/helpers/token_helper.dart';
-import 'package:flutter_movies_app/data/models/login_model.dart';
-import 'package:flutter_movies_app/data/models/register_model.dart';
+import 'package:flutter_movies_app/data/env_variables.dart';
+import 'package:flutter_movies_app/domain/exceptions.dart';
+import 'package:flutter_movies_app/domain/token.dart';
+import 'package:flutter_movies_app/domain/models/login_model.dart';
+import 'package:flutter_movies_app/domain/models/register_model.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> login({required String username, required String password}) async {
+Future<void> login(LoginModel model) async {
   try {
-    final model = LoginModel(username: username, password: password);
     final response = await http.post(
       Uri.https(baseUrl, "/SignIn"),
       headers: {
@@ -21,7 +20,7 @@ Future<void> login({required String username, required String password}) async {
       throw Unauthorized();
     }
     final result = jsonDecode(response.body)["token"];
-    TokenHelper.saveToken(result);
+    Token.saveToken(result);
   } on Unauthorized {
     throw Unauthorized(message: "Credenziali errate!");
   } catch (e) {
@@ -29,17 +28,8 @@ Future<void> login({required String username, required String password}) async {
   }
 }
 
-Future<void> register({
-  required String username,
-  required String email,
-  required String password,
-}) async {
+Future<void> register(RegisterModel model) async {
   try {
-    final model = RegisterModel(
-      username: username,
-      email: email,
-      password: password,
-    );
     final response = await http.post(
       Uri.https(baseUrl, "/SignUp"),
       headers: {
@@ -57,21 +47,21 @@ Future<void> register({
   }
 }
 
-Future<void> registerWithLogin({
-  required String username,
-  required String email,
-  required String password,
-}) async {
+Future<void> registerWithLogin(RegisterModel model) async {
+  final LoginModel loginModel = LoginModel(
+    username: model.username,
+    password: model.password,
+  );
   Future.wait([
-    register(username: username, email: email, password: password),
+    register(model),
     Future.delayed(
       const Duration(seconds: 2),
-      () => login(username: username, password: password),
+      () => login(loginModel),
     ),
   ]);
 }
 
 void logout(BuildContext context) {
-  TokenHelper.removeToken();
+  Token.removeToken();
   Navigator.of(context).popUntil((route) => route.isFirst);
 }

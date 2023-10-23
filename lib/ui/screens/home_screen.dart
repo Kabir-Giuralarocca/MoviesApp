@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/models/movie_model.dart';
+import 'package:flutter_movies_app/data/env_variables.dart';
+import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/screens/movies_screen.dart';
@@ -22,48 +23,33 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Movie>> movieList;
   List<Movie> topRated = [];
-  List<Movie> allMovies = [];
 
   @override
   void initState() {
     super.initState();
-    movieList = movies();
+    movieList = isMobile ? moviesFake() : movies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,
-        title: const Text("Movies App"),
-        titleTextStyle: bold_24.copyWith(color: Colors.white),
-        actions: [
-          GestureDetector(
-            onTap: () => logout(context),
-            child: const Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Icon(Icons.logout, color: Colors.white),
-            ),
-          )
-        ],
-      ),
+      appBar: homeAppBar(context),
       body: RefreshIndicator(
+        onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
+          setState(() {
+            movieList = isMobile ? moviesFake() : movies();
+          });
+        }),
         child: FutureBuilder(
           future: movieList,
           builder: (context, snapshot) {
+            List<Movie> movies = snapshot.data ?? [];
             if (snapshot.hasError) {
               return ErrorAlert(text: snapshot.error.toString());
             } else {
               if (snapshot.hasData) {
-                topRated = snapshot.data!.where((movie) {
-                  return movie.rating == 5;
-                }).toList();
+                topRated = movies.where((movie) => movie.rating == 5).toList();
                 topRated.shuffle();
-
-                allMovies = snapshot.data!;
-                allMovies.shuffle();
               }
               return ListView(
                 clipBehavior: Clip.none,
@@ -77,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   height_16,
                   SectionTitle(
                     label: "Top Rated",
-                    action: () => Navigator.of(context).pushNamed(
+                    action: () => Navigator.pushNamed(
+                      context,
                       "/movies",
                       arguments: MoviesListArgs(true),
                     ),
@@ -100,15 +87,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   height_16,
                   SectionTitle(
                     label: "Movies",
-                    action: () => Navigator.of(context).pushNamed("/movies"),
+                    action: () => Navigator.pushNamed(context, "/movies"),
                   ),
                   for (var i = 0; i < 3; i++)
                     snapshot.hasData
-                        ? MovieItem(movie: snapshot.data![i])
+                        ? MovieItem(movie: movies[i])
                         : const MovieItemShimmer(),
                   height_24,
                   OutlinedButton.icon(
-                    onPressed: () => Navigator.of(context).pushNamed("/create"),
+                    onPressed: () => Navigator.pushNamed(context, "/create"),
                     label: const Text("Aggiungi"),
                     icon: const Icon(Icons.add),
                   ),
@@ -117,12 +104,25 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           },
         ),
-        onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            movieList = movies();
-          });
-        }),
       ),
     );
   }
+}
+
+AppBar homeAppBar(BuildContext context) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    backgroundColor: Colors.black,
+    title: const Text("Movies App"),
+    titleTextStyle: bold_24.copyWith(color: Colors.white),
+    actions: [
+      GestureDetector(
+        onTap: () => logout(context),
+        child: const Padding(
+          padding: EdgeInsets.only(right: 16),
+          child: Icon(Icons.logout, color: Colors.white),
+        ),
+      )
+    ],
+  );
 }

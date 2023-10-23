@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/helpers/movie_helper.dart';
+import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
+import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 
 class Movie {
   final int id;
@@ -24,6 +25,18 @@ class Movie {
     this.image,
   });
 
+  static Movie empty() {
+    return Movie(
+      title: "",
+      description: "",
+      director: "",
+      genre: "",
+      duration: TimeOfDay.now(),
+      releaseDate: DateTime.now(),
+      rating: 0,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
@@ -31,7 +44,7 @@ class Movie {
       'description': description,
       'director': director,
       'genre': genre,
-      'duration': duration.toJsonType(),
+      'duration': duration.toJson(),
       'releaseDate': releaseDate.toJsonType(),
       'rating': rating,
       'image': image,
@@ -46,9 +59,7 @@ class Movie {
       director: map['director'] as String,
       genre: map['genre'] as String,
       duration: (map['duration'] as String).toTimeOfDay(),
-      releaseDate: DateTime.parse(
-        map['releaseDate'] as String,
-      ),
+      releaseDate: DateTime.parse(map['releaseDate'] as String),
       rating: map['rating'] as int,
       image: map['image'] != null ? map['image'] as String : null,
     );

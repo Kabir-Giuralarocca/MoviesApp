@@ -21,7 +21,8 @@ Future<List<Movie>> movies() async {
     }
     Iterable data = jsonDecode(response.body);
     final result = data.map((e) => Movie.fromJson(e)).toList();
-    return result.reversed.toList();
+    result.shuffle();
+    return result;
   } on Unauthorized {
     throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
   } catch (e) {

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/env_variables.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
-import 'package:flutter_movies_app/ui/widgets/collapsing_app_bar.dart';
+import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
 import 'package:flutter_movies_app/ui/widgets/list_description.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_item.dart';
-import 'package:flutter_movies_app/ui/widgets/movie_item_shimmer.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/movie_item_shimmer.dart';
 
 class MoviesScreen extends StatefulWidget {
   const MoviesScreen({
@@ -30,7 +29,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   void initState() {
     super.initState();
     showTop = widget.args?.showTop ?? false;
-    movieList = isMobile ? moviesFake() : movies();
+    movieList = movies();
   }
 
   @override
@@ -39,12 +38,13 @@ class _MoviesScreenState extends State<MoviesScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movieList = isMobile ? moviesFake() : movies();
+            movieList = movies();
           });
         }),
         child: FutureBuilder(
           future: movieList,
           builder: (context, snapshot) {
+            snapshot.data?.sort((a, b) => b.id.compareTo(a.id));
             List<Movie> movies = snapshot.data ?? [];
             if (snapshot.hasError) {
               return ErrorAlert(text: snapshot.error.toString());

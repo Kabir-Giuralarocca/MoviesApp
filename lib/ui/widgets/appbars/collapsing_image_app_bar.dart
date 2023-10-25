@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/collapsing_title.dart';
+import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_title.dart';
 
 class CollapsingImageAppBar extends StatelessWidget {
   const CollapsingImageAppBar({

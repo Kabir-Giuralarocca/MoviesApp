@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Movies',
       theme: AppTheme.theme,
-      initialRoute: "/",
+      initialRoute: "/login",
       onGenerateRoute: (settings) => onGenerateRoute(settings),
     );
   }

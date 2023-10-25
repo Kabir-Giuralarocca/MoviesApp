@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/base_shimmer.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/base_shimmer.dart';
 
 class MovieCarouselItemShimmer extends StatelessWidget {
   const MovieCarouselItemShimmer({super.key});
@@ -26,7 +26,10 @@ class MovieCarouselItemShimmer extends StatelessWidget {
               child: Container(
                 height: 12,
                 width: double.infinity,
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -36,7 +39,6 @@ class MovieCarouselItemShimmer extends StatelessWidget {
               width: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: imageShadow,
                 color: Colors.white,
               ),
             ),

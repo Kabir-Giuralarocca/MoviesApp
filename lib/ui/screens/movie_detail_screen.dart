@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/env_variables.dart';
 import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
 import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/theme/app_theme.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/collapsing_image_app_bar.dart';
+import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_image_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_info.dart';
 import 'package:flutter_movies_app/ui/widgets/star.dart';
@@ -27,9 +26,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
   @override
   void initState() {
     super.initState();
-    movie = isMobile
-        ? movieDetailFake(widget.movieId)
-        : movieDetail(widget.movieId);
+    movie = movieDetail(widget.movieId);
   }
 
   void _showLoader(bool show) => setState(() => loader = show);
@@ -44,23 +41,19 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
   }
 
   void _deleteMovie(Movie movie) {
-    if (isMobile) {
+    _showLoader(true);
+    deleteMovie(movie.id).then((value) {
+      _showLoader(false);
       Navigator.pop(context);
-    } else {
-      _showLoader(true);
-      deleteMovie(movie.id).then((value) {
-        _showLoader(false);
-        Navigator.pop(context);
-      }).onError((error, stackTrace) {
-        _showLoader(false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          messageSnackBar(
-            message: error.toString(),
-            isError: true,
-          ),
-        );
-      });
-    }
+    }).onError((error, stackTrace) {
+      _showLoader(false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        messageSnackBar(
+          message: error.toString(),
+          isError: true,
+        ),
+      );
+    });
   }
 
   @override
@@ -69,9 +62,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movie = isMobile
-                ? movieDetailFake(widget.movieId)
-                : movieDetail(widget.movieId);
+            movie = movieDetail(widget.movieId);
           });
         }),
         child: FutureBuilder(

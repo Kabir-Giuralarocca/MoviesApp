@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/image_placeholder.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/base_shimmer.dart';
 
 class MoviePoster extends StatelessWidget {
   const MoviePoster({
@@ -28,6 +29,21 @@ class MoviePoster extends StatelessWidget {
         width: width,
         height: height,
         fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          return loadingProgress != null
+              ? BaseShimmer(
+                  child: Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: imageShadow,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : child;
+        },
         errorBuilder: (context, error, stackTrace) {
           return ImagePlaceholder(height: height, width: width);
         },

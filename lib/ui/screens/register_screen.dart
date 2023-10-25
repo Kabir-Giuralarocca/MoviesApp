@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/env_variables.dart';
 import 'package:flutter_movies_app/domain/exceptions.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/domain/models/register_model.dart';
@@ -131,12 +130,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height_8,
                 ElevatedButton(
                   onPressed: () {
-                    if (isMobile) {
-                      Navigator.pushNamed(context, "/home");
-                    } else {
-                      if (_formKey.currentState?.validate() == true) {
-                        _register();
-                      }
+                    if (_formKey.currentState?.validate() == true) {
+                      _register();
                     }
                   },
                   child: const Text("Registrati"),

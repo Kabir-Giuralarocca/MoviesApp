@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/env_variables.dart';
 import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
 import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/collapsing_app_bar.dart';
+import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
 import 'package:flutter_movies_app/ui/widgets/list_description.dart';
 import 'package:flutter_movies_app/ui/widgets/loading_screen.dart';
@@ -181,12 +180,8 @@ class _CreateMovieScreenState extends State<CreateMovieScreen> {
                           padding: const EdgeInsets.only(bottom: 100),
                           child: ElevatedButton(
                             onPressed: () {
-                              if (isMobile) {
-                                Navigator.pop(context);
-                              } else {
-                                if (_formKey.currentState?.validate() == true) {
-                                  _createMovie();
-                                }
+                              if (_formKey.currentState?.validate() == true) {
+                                _createMovie();
                               }
                             },
                             child: const Text("Aggiungi"),

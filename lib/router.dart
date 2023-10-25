@@ -13,7 +13,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   var args = settings.arguments;
 
   var routes = {
-    "/": (context) => const LoginScreen(),
+    "/login": (context) => const LoginScreen(),
     "/register": (context) => const RegisterScreen(),
     "/home": (context) => const HomeScreen(),
     "/movies": (context) => MoviesScreen(args: args as MoviesListArgs?),

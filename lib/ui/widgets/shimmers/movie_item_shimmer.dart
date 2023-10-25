@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/widgets/base_shimmer.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/base_shimmer.dart';
 
 class MovieItemShimmer extends StatelessWidget {
   const MovieItemShimmer({
@@ -37,7 +37,10 @@ class MovieItemShimmer extends StatelessWidget {
                   child: Container(
                     height: 12,
                     width: double.infinity,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 height_4,
@@ -45,7 +48,10 @@ class MovieItemShimmer extends StatelessWidget {
                   child: Container(
                     height: 12,
                     width: double.infinity,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 height_4,
@@ -53,7 +59,10 @@ class MovieItemShimmer extends StatelessWidget {
                   child: Container(
                     height: 12,
                     width: 100,
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -65,7 +74,6 @@ class MovieItemShimmer extends StatelessWidget {
               width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: imageShadow,
                 color: Colors.white,
               ),
             ),

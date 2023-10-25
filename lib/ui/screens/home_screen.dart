@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/env_variables.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
@@ -8,9 +7,9 @@ import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_carousel_item.dart';
-import 'package:flutter_movies_app/ui/widgets/movie_carousel_item_shimmer.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/movie_carousel_item_shimmer.dart';
 import 'package:flutter_movies_app/ui/widgets/movie_item.dart';
-import 'package:flutter_movies_app/ui/widgets/movie_item_shimmer.dart';
+import 'package:flutter_movies_app/ui/widgets/shimmers/movie_item_shimmer.dart';
 import 'package:flutter_movies_app/ui/widgets/section_title.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    movieList = isMobile ? moviesFake() : movies();
+    movieList = movies();
   }
 
   @override
@@ -37,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movieList = isMobile ? moviesFake() : movies();
+            movieList = movies();
           });
         }),
         child: FutureBuilder(
@@ -49,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
             } else {
               if (snapshot.hasData) {
                 topRated = movies.where((movie) => movie.rating == 5).toList();
-                topRated.shuffle();
               }
               return ListView(
                 clipBehavior: Clip.none,

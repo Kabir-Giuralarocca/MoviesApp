@@ -11,9 +11,7 @@ Future<void> login(LoginModel model) async {
   try {
     final response = await http.post(
       Uri.https(baseUrl, "/SignIn"),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(model.toJson()),
     );
     if (response.statusCode == 401) {
@@ -32,9 +30,7 @@ Future<void> register(RegisterModel model) async {
   try {
     final response = await http.post(
       Uri.https(baseUrl, "/SignUp"),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(model.toJson()),
     );
     if (response.statusCode == 400) {

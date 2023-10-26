@@ -44,7 +44,7 @@ class Movie {
       'description': description,
       'director': director,
       'genre': genre,
-      'duration': duration.toJson(),
+      'duration': duration.toTimeSpan(),
       'releaseDate': releaseDate.toJsonType(),
       'rating': rating,
       'image': image,

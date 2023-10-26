@@ -5,7 +5,7 @@ extension TimeHelper on TimeOfDay {
     return "${hour == 1 ? "$hour ora" : "$hour ore"}${minute != 0 ? " e $minute minuti" : ""} ";
   }
 
-  String toJson() {
+  String toTimeSpan() {
     return "${hour < 10 ? "0$hour" : "$hour"}:${minute < 10 ? "0$minute" : "$minute"}:00";
   }
 }

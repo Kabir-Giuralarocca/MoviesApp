@@ -58,6 +58,11 @@ Future<TimeOfDay?> durationPicker(
     context: context,
     initialTime: initialTime,
     initialEntryMode: TimePickerEntryMode.inputOnly,
+    helpText: "Durata",
+    confirmText: "Salva",
+    cancelText: "Annulla",
+    hourLabelText: "Ore",
+    minuteLabelText: "Minuti",
     builder: (context, child) {
       return MediaQuery(
         data: MediaQuery.of(context).copyWith(

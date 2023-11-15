@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/domain/exceptions.dart';
-import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
+import 'package:flutter_movies_app/data/repositories/auth/auth_repository.dart';
+import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:flutter_movies_app/domain/models/register_model.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // ignore: unused_element
   void _registerWithLogin() {
     _showLoader(true);
-    registerWithLogin(RegisterModel(
+    AuthRepository.registerWithLogin(RegisterModel(
       username: username.text,
       email: email.text,
       password: password.text,
@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _register() {
     _showLoader(true);
-    register(RegisterModel(
+    AuthRepository.register(RegisterModel(
       username: username.text,
       email: email.text,
       password: password.text,

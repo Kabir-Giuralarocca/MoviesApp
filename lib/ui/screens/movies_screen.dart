@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/movie/movie_repository.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
-import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
 import 'package:flutter_movies_app/ui/widgets/list_description.dart';
@@ -29,7 +29,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   void initState() {
     super.initState();
     showTop = widget.args?.showTop ?? false;
-    movieList = movies();
+    movieList = MovieRepository.movies();
   }
 
   @override
@@ -38,7 +38,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movieList = movies();
+            movieList = MovieRepository.movies();
           });
         }),
         child: FutureBuilder(

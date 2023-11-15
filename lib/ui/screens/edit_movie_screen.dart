@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/movie/movie_repository.dart';
 import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
 import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
-import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_image_app_bar.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
@@ -94,7 +94,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
 
   void _editMovie() {
     _showLoader(true);
-    editMovie(Movie(
+    MovieRepository.editMovie(Movie(
       id: movie.id,
       title: title.text,
       description: description.text,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/auth/auth_repository.dart';
 import 'package:flutter_movies_app/domain/models/login_model.dart';
 import 'package:flutter_movies_app/domain/token.dart';
-import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/utils/form_validators.dart';
@@ -41,7 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     _showLoader(true);
-    login(LoginModel(username: username.text, password: password.text)).then(
+    AuthRepository.login(
+            LoginModel(username: username.text, password: password.text))
+        .then(
       (value) {
         _showLoader(false);
         Navigator.of(context).pushNamed("/home");

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/auth/auth_repository.dart';
+import 'package:flutter_movies_app/data/repositories/movie/movie_repository.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
-import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
-import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/screens/movies_screen.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    movieList = movies();
+    movieList = MovieRepository.movies();
   }
 
   @override
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movieList = movies();
+            movieList = MovieRepository.movies();
           });
         }),
         child: FutureBuilder(
@@ -115,7 +115,7 @@ AppBar homeAppBar(BuildContext context) {
     titleTextStyle: bold_24.copyWith(color: Colors.white),
     actions: [
       GestureDetector(
-        onTap: () => logout(context),
+        onTap: () => AuthRepository.logout(context),
         child: const Padding(
           padding: EdgeInsets.only(right: 16),
           child: Icon(Icons.logout, color: Colors.white),

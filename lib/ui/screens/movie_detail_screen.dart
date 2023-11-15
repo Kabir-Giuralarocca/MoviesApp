@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/repositories/movie/movie_repository.dart';
 import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
 import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
-import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/ui/theme/app_theme.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/appbars/collapsing_image_app_bar.dart';
@@ -26,7 +26,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
   @override
   void initState() {
     super.initState();
-    movie = movieDetail(widget.movieId);
+    movie = MovieRepository.movieDetail(widget.movieId);
   }
 
   void _showLoader(bool show) => setState(() => loader = show);
@@ -42,7 +42,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
 
   void _deleteMovie(Movie movie) {
     _showLoader(true);
-    deleteMovie(movie.id).then((value) {
+    MovieRepository.deleteMovie(movie.id).then((value) {
       _showLoader(false);
       Navigator.pop(context);
     }).onError((error, stackTrace) {
@@ -62,7 +62,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movie = movieDetail(widget.movieId);
+            movie = MovieRepository.movieDetail(widget.movieId);
           });
         }),
         child: FutureBuilder(

@@ -1,22 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_movies_app/data/config.dart';
 import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:flutter_movies_app/domain/token.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 import 'package:http/http.dart' as http;
 
-class BasicMovieRepository {
-  //static const  _localUrl = "localhost:44342";
-  static const _baseUrl = "fluttermoviesapi.azurewebsites.net";
-
+class MovieRepository {
   // GET ALL
   static Future<List<Movie>> movies() async {
     try {
       var token = "";
       await Token.getToken().then((value) => token = value);
       final response = await http.get(
-        Uri.https(_baseUrl, "api/Movies"),
+        Uri.https(baseUrl, "api/Movies"),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
       if (response.statusCode == 401) {
@@ -39,7 +37,7 @@ class BasicMovieRepository {
       var token = "";
       await Token.getToken().then((value) => token = value);
       final response = await http.get(
-        Uri.https(_baseUrl, "api/Movies/$movieId"),
+        Uri.https(baseUrl, "api/Movies/$movieId"),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
       if (response.statusCode == 401) {
@@ -60,7 +58,7 @@ class BasicMovieRepository {
       var token = "";
       await Token.getToken().then((value) => token = value);
       final response = await http.post(
-        Uri.https(_baseUrl, "api/Movies"),
+        Uri.https(baseUrl, "api/Movies"),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
           'Content-Type': 'application/json; charset=UTF-8',
@@ -87,7 +85,7 @@ class BasicMovieRepository {
       var token = "";
       await Token.getToken().then((value) => token = value);
       final response = await http.put(
-        Uri.https(_baseUrl, "api/Movies/${movie.id}"),
+        Uri.https(baseUrl, "api/Movies/${movie.id}"),
         headers: {
           HttpHeaders.authorizationHeader: "Bearer $token",
           'Content-Type': 'application/json; charset=UTF-8',
@@ -115,7 +113,7 @@ class BasicMovieRepository {
       var token = "";
       await Token.getToken().then((value) => token = value);
       final response = await http.delete(
-        Uri.https(_baseUrl, "api/Movies/$movieId"),
+        Uri.https(baseUrl, "api/Movies/$movieId"),
         headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
       );
       if (response.statusCode == 200) {

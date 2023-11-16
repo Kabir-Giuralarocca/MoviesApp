@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/repositories/auth/auth_repository.dart';
+import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/domain/models/login_model.dart';
 import 'package:flutter_movies_app/domain/token.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';

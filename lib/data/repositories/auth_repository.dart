@@ -1,19 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_movies_app/data/config.dart';
 import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:flutter_movies_app/domain/token.dart';
 import 'package:flutter_movies_app/domain/models/login_model.dart';
 import 'package:flutter_movies_app/domain/models/register_model.dart';
 import 'package:http/http.dart' as http;
 
-class BasicAuthRepository {
-  //static const _localUrl = "localhost:44342";
-  static const _baseUrl = "fluttermoviesapi.azurewebsites.net";
-
+class AuthRepository {
   static Future<void> login(LoginModel model) async {
     try {
       final response = await http.post(
-        Uri.https(_baseUrl, "/SignIn"),
+        Uri.https(baseUrl, "/SignIn"),
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(model.toJson()),
       );
@@ -32,7 +30,7 @@ class BasicAuthRepository {
   static Future<void> register(RegisterModel model) async {
     try {
       final response = await http.post(
-        Uri.https(_baseUrl, "/SignUp"),
+        Uri.https(baseUrl, "/SignUp"),
         headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(model.toJson()),
       );

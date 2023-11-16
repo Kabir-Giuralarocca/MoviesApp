@@ -1,2 +1,2 @@
-const localUrl = "https://localhost:44342";
-const baseUrl = "https://fluttermoviesapi.azurewebsites.net";
+const localUrl = "localhost:44342";
+const baseUrl = "fluttermoviesapi.azurewebsites.net";

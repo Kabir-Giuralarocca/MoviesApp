@@ -1,21 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_movies_app/data/config.dart';
 import 'package:flutter_movies_app/data/interceptors/base_interceptor.dart';
 import 'package:flutter_movies_app/data/interceptors/token_interceptor.dart';
 
 class MovieClient {
-  static const localUrl = "https://localhost:44342/api/Movies";
-  static const baseUrl =
-      "https://fluttermoviesapi.azurewebsites.net/api/Movies";
-
   static final options = BaseOptions(
-    baseUrl: baseUrl,
+    baseUrl: "$baseUrl/api/Movies",
     contentType: "application/json; charset=UTF-8",
   );
 
   static Dio get dio {
     final Dio dio = Dio(options);
     dio.interceptors.addAll([
-      BaseInterceptor(),
+      BaseInterceptor(
+        unauthorizedMessage: "Rifai l'accesso per utilizzare l'app",
+      ),
       TokenInterceptor(),
       LogInterceptor(requestBody: true, responseBody: true),
     ]);

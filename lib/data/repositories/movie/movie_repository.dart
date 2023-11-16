@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_movies_app/data/clients/movie_client.dart';
-import 'package:flutter_movies_app/domain/exceptions/error_type.dart';
-import 'package:flutter_movies_app/domain/exceptions/exception_helper.dart';
 import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
 
@@ -17,11 +14,7 @@ class MovieRepository {
       result.shuffle();
       return result;
     } on DioException catch (e) {
-      if (e.errorType() == ErrorType.unauthorized) {
-        throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
-      } else {
-        throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
-      }
+      throw e.error as Object;
     }
   }
 
@@ -31,11 +24,7 @@ class MovieRepository {
       Movie result = Movie.fromJson(response.data);
       return result;
     } on DioException catch (e) {
-      if (e.errorType() == ErrorType.unauthorized) {
-        throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
-      } else {
-        throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
-      }
+      throw e.error as Object;
     }
   }
 
@@ -43,11 +32,7 @@ class MovieRepository {
     try {
       await MovieClient.dio.post("", data: jsonEncode(movie.toJson()));
     } on DioException catch (e) {
-      if (e.errorType() == ErrorType.unauthorized) {
-        throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
-      } else {
-        throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
-      }
+      throw e.error as Object;
     }
   }
 
@@ -60,11 +45,7 @@ class MovieRepository {
       Movie result = Movie.fromJson(response.data);
       return result;
     } on DioException catch (e) {
-      if (e.errorType() == ErrorType.unauthorized) {
-        throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
-      } else {
-        throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
-      }
+      throw e.error as Object;
     }
   }
 
@@ -72,11 +53,7 @@ class MovieRepository {
     try {
       await MovieClient.dio.delete("/$movieId");
     } on DioException catch (e) {
-      if (e.errorType() == ErrorType.unauthorized) {
-        throw Unauthorized(message: "Rifai l'accesso per utilizzare l'app");
-      } else {
-        throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
-      }
+      throw e.error as Object;
     }
   }
 

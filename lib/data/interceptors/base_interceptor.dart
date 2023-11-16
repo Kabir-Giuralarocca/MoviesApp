@@ -5,6 +5,11 @@ import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:logger/logger.dart';
 
 class BaseInterceptor extends Interceptor {
+  BaseInterceptor({
+    this.unauthorizedMessage = "Credenziali errate!",
+  });
+
+  final String unauthorizedMessage;
   final log = Logger();
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
@@ -13,7 +18,7 @@ class BaseInterceptor extends Interceptor {
       case ErrorType.userAlreadyExist:
         throw UserAlredyExist(message: "Questo account esiste già!");
       case ErrorType.unauthorized:
-        throw Unauthorized(message: "Credenziali errate!");
+        throw Unauthorized(message: unauthorizedMessage);
       default:
         throw GenericError(message: "Qualcosa è andato storto!");
     }

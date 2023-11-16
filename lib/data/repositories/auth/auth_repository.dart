@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/clients/auth_client.dart';
-import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
 import 'package:flutter_movies_app/domain/models/login_model.dart';
 import 'package:flutter_movies_app/domain/models/register_model.dart';
 import 'package:flutter_movies_app/domain/token.dart';
@@ -18,7 +16,7 @@ class AuthRepository {
       final result = response.data["token"];
       Token.saveToken(result);
     } on DioException catch (e) {
-      throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
+      throw e.error as Object;
     }
   }
 
@@ -29,7 +27,7 @@ class AuthRepository {
         data: jsonEncode(model.toJson()),
       );
     } on DioException catch (e) {
-      throw e.error ?? GenericError(message: "Qualcosa è andato storto!");
+      throw e.error as Object;
     }
   }
 

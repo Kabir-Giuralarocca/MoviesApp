@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: "Movies",
                     action: () => Navigator.pushNamed(context, "/movies"),
                   ),
-                  for (var i = 0; i < 3; i++)
+                  for (var i = 0; i < 4; i++)
                     snapshot.hasData
                         ? MovieItem(movie: movies[i])
                         : const MovieItemShimmer(),

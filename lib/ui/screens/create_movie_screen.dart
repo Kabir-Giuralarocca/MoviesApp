@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_movies_app/data/repositories/movie/movie_repository.dart';
+import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/domain/helpers/date_helper.dart';
 import 'package:flutter_movies_app/domain/helpers/time_helper.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';

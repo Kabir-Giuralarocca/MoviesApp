@@ -11,6 +11,7 @@ import 'package:flutter_movies_app/ui/widgets/shimmers/movie_carousel_item_shimm
 import 'package:flutter_movies_app/ui/widgets/movie_item.dart';
 import 'package:flutter_movies_app/ui/widgets/shimmers/movie_item_shimmer.dart';
 import 'package:flutter_movies_app/ui/widgets/section_title.dart';
+import 'package:flutter_movies_app/ui/widgets/target_platform_info.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -97,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: const Text("Aggiungi"),
                     icon: const Icon(Icons.add),
                   ),
+                  const TargetPlatformInfo(),
                 ],
               );
             }

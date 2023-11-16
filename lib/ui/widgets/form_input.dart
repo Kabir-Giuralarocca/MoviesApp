@@ -91,6 +91,34 @@ class _FormInputState extends State<FormInput> {
   }
 }
 
+class FormInputPassword extends StatefulWidget {
+  const FormInputPassword({
+    super.key,
+    this.controller,
+  });
+  final TextEditingController? controller;
+
+  @override
+  State<FormInputPassword> createState() => _FormInputPasswordState();
+}
+
+class _FormInputPasswordState extends State<FormInputPassword> {
+  bool obscurePwd = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormInput(
+      label: "Password",
+      hint: "Password",
+      icon: obscurePwd ? Icons.visibility : Icons.visibility_off,
+      obscureText: obscurePwd,
+      onIconTap: () => setState(() => obscurePwd = !obscurePwd),
+      controller: widget.controller,
+      validator: passwordValidator,
+    );
+  }
+}
+
 final Decoration formInputDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.circular(8),

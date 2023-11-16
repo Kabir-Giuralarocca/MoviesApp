@@ -4,7 +4,6 @@ import 'package:flutter_movies_app/domain/models/login_model.dart';
 import 'package:flutter_movies_app/domain/token.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
-import 'package:flutter_movies_app/ui/utils/form_validators.dart';
 import 'package:flutter_movies_app/ui/widgets/form_input.dart';
 import 'package:flutter_movies_app/ui/widgets/loading_screen.dart';
 
@@ -17,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool loader = false;
-  bool obscurePwd = true;
   final _formKey = GlobalKey<FormState>();
   final username = TextEditingController();
   final password = TextEditingController();
@@ -84,15 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: Icons.person,
                     controller: username,
                   ),
-                  FormInput(
-                    label: "Password",
-                    hint: "Password",
-                    icon: obscurePwd ? Icons.visibility : Icons.visibility_off,
-                    obscureText: obscurePwd,
-                    onIconTap: () => setState(() => obscurePwd = !obscurePwd),
-                    controller: password,
-                    validator: passwordValidator,
-                  ),
+                  FormInputPassword(controller: password),
                 ],
               ),
             ),

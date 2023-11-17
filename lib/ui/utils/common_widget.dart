@@ -37,11 +37,16 @@ List<BoxShadow> imageShadow = [
 SnackBar messageSnackBar({
   required String message,
   bool isError = false,
+  bool isSuccess = false,
   String? label,
   void Function()? onPressed,
 }) {
   return SnackBar(
-    backgroundColor: isError ? Colors.red : Colors.blueGrey,
+    backgroundColor: isError
+        ? Colors.red
+        : isSuccess
+            ? Colors.green
+            : Colors.blueGrey,
     content: Text(message),
     action: label != null && onPressed != null
         ? SnackBarAction(label: label, onPressed: onPressed)

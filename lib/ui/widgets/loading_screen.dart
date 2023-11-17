@@ -5,10 +5,12 @@ class LoadingScreen extends StatelessWidget {
     super.key,
     required this.child,
     required this.showLoader,
+    this.progress,
   });
 
   final Widget child;
   final bool showLoader;
+  final double? progress;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class LoadingScreen extends StatelessWidget {
         ),
         Visibility(
           visible: showLoader,
-          child: const Center(child: CircularProgressIndicator()),
+          child: Center(child: CircularProgressIndicator(value: progress)),
         ),
       ],
     );

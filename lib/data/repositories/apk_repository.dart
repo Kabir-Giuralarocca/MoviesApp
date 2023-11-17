@@ -3,21 +3,32 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_movies_app/data/config.dart';
 import 'package:flutter_movies_app/domain/exceptions/exceptions.dart';
+// import 'package:flutter_movies_app/domain/helpers/platform_helper.dart';
 import 'package:path_provider/path_provider.dart';
+import "package:universal_html/html.dart";
 
 class ApkRepository {
   static Future<void> downloadApk({
     required void Function(double progress) progessCallback,
   }) async {
     try {
-      final Dio dio = Dio(BaseOptions(baseUrl: apkUrl));
-      String path = await _getFilePath(apkFileName);
-      await dio.download(
-        "",
-        path,
-        deleteOnError: true,
-        onReceiveProgress: (count, total) => progessCallback(count / total),
-      );
+      AnchorElement anchorElement = AnchorElement(href: apkUrl);
+      anchorElement.download = apkFileName;
+      anchorElement.click();
+      // if (isMobile) {
+      //   final Dio dio = Dio(BaseOptions(baseUrl: apkUrl));
+      //   String path = await _getFilePath(apkFileName);
+      //   await dio.download(
+      //     "",
+      //     path,
+      //     deleteOnError: true,
+      //     onReceiveProgress: (count, total) => progessCallback(count / total),
+      //   );
+      // } else {
+      //   AnchorElement anchorElement = AnchorElement(href: apkUrl);
+      //   anchorElement.download = apkFileName;
+      //   anchorElement.click();
+      // }
     } on DioException catch (e) {
       throw e.error as Object;
     }

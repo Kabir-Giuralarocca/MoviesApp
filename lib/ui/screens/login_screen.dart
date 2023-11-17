@@ -71,12 +71,14 @@ class _LoginScreenState extends State<LoginScreen> {
       },
     ).then((value) {
       _showLoader(false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        messageSnackBar(
-          message: "Download avvenuto con successo!",
-          isSuccess: true,
-        ),
-      );
+      if (!kIsWeb) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          messageSnackBar(
+            message: "Download avvenuto con successo!",
+            isSuccess: true,
+          ),
+        );
+      }
     }).onError((error, stackTrace) {
       _showLoader(false);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -139,8 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text("Registrati"),
               ),
               Visibility(
-                visible:
-                    kIsWeb && defaultTargetPlatform == TargetPlatform.android,
+                visible: kIsWeb,
                 child: DownloadButton(
                   label: "Download APK",
                   onPressed: () => _downloadApk(),

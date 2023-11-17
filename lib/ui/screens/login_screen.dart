@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/repositories/apk_repository.dart';
@@ -142,7 +140,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               height_8,
               Visibility(
-                visible: kIsWeb && Platform.isAndroid,
+                visible:
+                    kIsWeb && defaultTargetPlatform == TargetPlatform.android,
                 child: DownloadButton(
                   label: "Download APK",
                   onPressed: () => _downloadApk(),

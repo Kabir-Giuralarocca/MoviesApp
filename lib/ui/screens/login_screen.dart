@@ -138,7 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () => Navigator.pushNamed(context, "/register"),
                 child: const Text("Registrati"),
               ),
-              height_8,
               Visibility(
                 visible:
                     kIsWeb && defaultTargetPlatform == TargetPlatform.android,

@@ -59,4 +59,4 @@ jobs:
           app-name: 'fluttermovies'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A140950A65004FFB9B0DB894B3EAF93C }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_00D5595D7CB14557A023967E1DF6F71D }}

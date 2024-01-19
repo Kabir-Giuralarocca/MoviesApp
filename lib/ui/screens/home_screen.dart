@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movies_app/data/repositories/auth_repository.dart';
 import 'package:flutter_movies_app/data/repositories/movie_repository.dart';
 import 'package:flutter_movies_app/domain/models/movie_model.dart';
-import 'package:flutter_movies_app/ui/screens/movies_screen.dart';
 import 'package:flutter_movies_app/ui/theme/text_styles.dart';
 import 'package:flutter_movies_app/ui/utils/common_widget.dart';
 import 'package:flutter_movies_app/ui/widgets/error_alert.dart';
@@ -65,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     action: () => Navigator.pushNamed(
                       context,
                       "/movies",
-                      arguments: MoviesListArgs(true),
+                      arguments: true,
                     ),
                   ),
                   SizedBox(

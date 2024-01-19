@@ -10,9 +10,10 @@ import 'package:flutter_movies_app/ui/widgets/loading_screen.dart';
 import 'package:flutter_movies_app/ui/widgets/rating_stars_input.dart';
 
 class EditMovieScreen extends StatefulWidget {
-  const EditMovieScreen({super.key, required this.movie});
+  const EditMovieScreen({super.key, this.movie, required this.id});
 
-  final Movie movie;
+  final int id;
+  final Movie? movie;
 
   @override
   State<EditMovieScreen> createState() => _EditMovieScreenState();
@@ -36,7 +37,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
 
   @override
   void initState() {
-    movie = widget.movie;
+    movie = widget.movie ?? Movie.empty();
     super.initState();
     _fillForm(movie);
   }

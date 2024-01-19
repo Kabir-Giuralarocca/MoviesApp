@@ -1,4 +1,4 @@
-const localUrl = "https://localhost:44342";
+const localUrl = "https://localhost:7179";
 const baseUrl = "https://fluttermoviesapi.azurewebsites.net";
 const apkFileName = "app-release.apk";
 const apkUrl =

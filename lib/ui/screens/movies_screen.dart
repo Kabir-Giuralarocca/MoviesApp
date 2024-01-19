@@ -10,10 +10,10 @@ import 'package:flutter_movies_app/ui/widgets/shimmers/movie_item_shimmer.dart';
 class MoviesScreen extends StatefulWidget {
   const MoviesScreen({
     super.key,
-    this.args,
+    required this.topRated,
   });
 
-  final MoviesListArgs? args;
+  final bool topRated;
 
   @override
   State<MoviesScreen> createState() => _MoviesScreenState();
@@ -28,7 +28,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   void initState() {
     super.initState();
-    showTop = widget.args?.showTop ?? false;
+    showTop = widget.topRated;
     movieList = MovieRepository.movies();
   }
 
@@ -85,10 +85,4 @@ class _MoviesScreenState extends State<MoviesScreen> {
       ),
     );
   }
-}
-
-class MoviesListArgs {
-  final bool showTop;
-
-  MoviesListArgs(this.showTop);
 }

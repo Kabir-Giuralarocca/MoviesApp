@@ -16,7 +16,7 @@ class MovieClient {
         unauthorizedMessage: "Rifai l'accesso per utilizzare l'app",
       ),
       TokenInterceptor(),
-      LogInterceptor(requestBody: true, responseBody: true),
+      LogInterceptor(requestBody: true, responseBody: false),
     ]);
     return dio;
   }

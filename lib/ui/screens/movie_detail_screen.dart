@@ -11,9 +11,9 @@ import 'package:flutter_movies_app/ui/widgets/movie_info.dart';
 import 'package:flutter_movies_app/ui/widgets/star.dart';
 
 class MovieDatailScreen extends StatefulWidget {
-  const MovieDatailScreen({super.key, required this.movieId});
+  const MovieDatailScreen({super.key, required this.id});
 
-  final int movieId;
+  final int id;
 
   @override
   State<MovieDatailScreen> createState() => _MovieDatailScreenState();
@@ -26,7 +26,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
   @override
   void initState() {
     super.initState();
-    movie = MovieRepository.movieDetail(widget.movieId);
+    movie = MovieRepository.movieDetail(widget.id);
   }
 
   void _showLoader(bool show) => setState(() => loader = show);
@@ -62,7 +62,7 @@ class _MovieDatailScreenState extends State<MovieDatailScreen> {
       body: RefreshIndicator(
         onRefresh: () => Future.delayed(const Duration(seconds: 1), () {
           setState(() {
-            movie = MovieRepository.movieDetail(widget.movieId);
+            movie = MovieRepository.movieDetail(widget.id);
           });
         }),
         child: FutureBuilder(

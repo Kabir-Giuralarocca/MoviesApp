@@ -10,11 +10,11 @@ class Token {
 
   static void saveToken(String value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString(tokenKey, value);
+    await pref.setString(tokenKey, value);
   }
 
   static void removeToken() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove(tokenKey);
+    await pref.remove(tokenKey);
   }
 }

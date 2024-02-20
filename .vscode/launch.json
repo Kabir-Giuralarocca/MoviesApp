@@ -7,7 +7,11 @@
       {
          "name": "flutter_movies_app",
          "request": "launch",
-         "type": "dart"
+         "type": "dart",
+         "args": [
+            "--web-browser-flag", 
+            "--disable-web-security",
+         ]
       },
       {
          "name": "flutter_movies_app (profile mode)",

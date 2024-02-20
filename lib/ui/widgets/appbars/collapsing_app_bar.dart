@@ -16,6 +16,7 @@ class CollapsingAppBar extends StatelessWidget {
       expandedHeight: 120,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
+        titlePadding: const EdgeInsets.all(16),
         title: Text(title, style: bold_24.copyWith(color: Colors.black)),
       ),
     );
